@@ -1,0 +1,21 @@
+{
+    "name": "Chrome - Obsidian",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "description": "A small chrome plugin that let's you easily clip things to Obsidian",
+    "homepage_url": "http://jplattel.nl/obsidian-clipper",
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": true
+    },
+    "browser_action": {
+        "default_title": "Clip to Obsidian vault"
+    },
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "clipboardRead"
+    ]
+}
