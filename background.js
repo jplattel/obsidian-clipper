@@ -1,12 +1,18 @@
+const extensionId = 'kinbjjlcnpdapllipcmnfbngdlicdlbd';
+
 chrome.browserAction.onClicked.addListener(function (tab) {
-
-	// for the current tab, inject the "automate.js" file & execute it
-    // chrome.tabs.executeScript(tab.ib, {
-    //     file: 'obsidian.js'
-    // });
+    // TODO: create pop-up with settings
     const VAULT_NAME = 'obsidian'
-    const CLIPPING_NOTE_NAME = 'Chrome Inbox'
+    const CLIPPING_NOTE_NAME = 'Chrome Clippings'
 
-    chrome.tabs.create({'url': `obsidian://vault/${VAULT_NAME}/${CLIPPING_NOTE_NAME}`});
+    const PREV = window.location
+
+    // Copy selection
+    chrome.tabs.executeScript(tab.ib, {file: 'copy.js'});
+
+    // Redirect to page (which opens obsidian).
+
+    const obsidianTab = chrome.tabs.create({ url: `https://jplattel.github.io/obsidian-clipper/?vault=${VAULT_NAME}&note=${CLIPPING_NOTE_NAME}&prev=${PREV}`}); 
+    chrome.tabs.remove(obsidianTab.id)
 
 });
