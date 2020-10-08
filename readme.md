@@ -31,6 +31,7 @@ Since Chrome allows you to set a custom shortcut to activate an extenion it shou
 
 ## Roadmap
 
+-   Make a option that let's you prepend a Zettelkasten id to the clipping itself?
 -   Once the url-scheme of Obsidian allows the creation of a new note, clip to a new note.
 -   In the long term future, maybe even offer the possiblity to search through your notes and append it?
 -   If you have any ideas, please create an issue with the `feature` label on it, thanks! 😁
