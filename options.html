@@ -1,21 +1,40 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>My Test Extension Options</title>
+        <title>Obsidian Clipper</title>
+        <link rel="stylesheet" href="options.css">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+
     </head>
     <body>
 
-    <div>
-        <label for="obsidian_vault_name">Obsidian Vault name:</label>
-        <input id="obsidian_vault_name" name="obsidian_vault_name" type="text">
-    </div>
-    <div>
-        <label for="obsidian_vault_name">Obsidian note to clip to:</label>
-        <input id="obsidian_note_name" name="obsidian_note_name" type="text">
-    </div>
+        <main>
 
-    <div id="status"></div>
-    <button id="save">Save</button>
+            <h1>Obsidian Clipper</h1>
+            <hr>
+            <h2 class="subtitle">An unoffical clipper for Chrome</h2>
+
+            <p class="description">
+                This is an unofficial clipper for <a href="https://obsidian.md/">Obsidian</a> that allows you to easily clip a selection to a note in 
+                Obsidian. Made by <a href="http://jplattel.nl/">Joost Plattel</a>. 
+                This plugin is available as open-source on <a href="https://github.com/jplattel/obsidian-clipper">Github</a>.
+                At this page you can configure the vault & note to append the clip to.
+            </p>
+
+
+            <div class="form-group">
+                <label for="obsidian_vault_name">Vault</label>
+                <input id="obsidian_vault_name" name="obsidian_vault_name" type="text" placeholder="obsidian">
+            </div>
+            <div class="form-group">
+                <label for="obsidian_vault_name">Note to clip to</label>
+                <input id="obsidian_note_name" name="obsidian_note_name" type="text" placeholder="Chrome Clippings">
+            </div>
+
+            <button id="save">Save vault & note configuration</button>
+            <div id="status"></div>
+
+        </main>
 
     <script src="options.js"></script>
 </body>

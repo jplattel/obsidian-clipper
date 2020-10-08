@@ -16,6 +16,14 @@ Since this extension is not yet published, a manual install is required. For thi
 
 1.  Right-click on the extension icon in the menu, and click on options.
 2.  A webpage should open where you can configure the options for this extension
+3.  You can configure the following:
+    -   `vault`: Allows you to specify which vault to open
+    -   `note`: The name of the note you want to append to
+
+Once configured, you're now good to go, using it only takes two steps:
+
+1.  Make a selection on a page and click the icon of the extension _(or use a shortcut key!)_.
+2.  Obsidian will try to open the specific note within the vault you specified, you can then paste your clipping!
 
 ## Building further upon this extension
 
@@ -25,6 +33,8 @@ Since Chrome allows you to set a custom shortcut to activate an extenion it shou
 
 -   Once the url-scheme of Obsidian allows the creation of a new note, clip to a new note.
 -   In the long term future, maybe even offer the possiblity to search through your notes and append it?
+-   If you have any ideas, please create an issue with the `feature` label on it, thanks! 😁
 
 ## Technical explanation
 
+This clipper is made possible with a work-around, since Chrome Extensions are forbidden to open custom url-schemes directly. The way around this issue is a custom html page that is hosted on Github-pages and also included in the repository: `docs/index.html`. This little file contains javascript that pulls the data like vault & note out of the url params. With this data, it reconstructs the obsidian url and opens the right note!
