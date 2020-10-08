@@ -10,12 +10,14 @@
         ],
         "persistent": true
     },
+    "options_page": "options.html",
     "browser_action": {
         "default_title": "Clip to Obsidian vault"
     },
     "permissions": [
         "tabs",
         "activeTab",
-        "clipboardWrite"
+        "clipboardWrite",
+        "storage"
     ]
 }
