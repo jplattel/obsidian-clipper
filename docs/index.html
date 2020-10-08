@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Obsidian Clipper</title>
+        <title>Obsidian Clipper </title>
         <link rel="stylesheet" href="style.css">
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
     </head>
@@ -9,7 +9,7 @@
 
         <main>
 
-            <h1>Obsidian Clipper</h1>
+            <h1>Obsidian Clipper <sup style="background-color: rgb(254, 75, 75); border-radius: 10px; font-size: 30px; padding: 5px;">BETA</sup></h1>
 
             <hr>
 
@@ -27,11 +27,49 @@
 
             <h2>Screencast</h2>
 
-            <img src="demo.gif" alt="" style="width: 100%;">
+            <img src="demo.gif" alt="" id="screencast" style="width: 100%;">
 
-            <h3>FAQ</h3>
+            <h2>FAQ</h2>
 
-            
+            <dl id="faq">
+                <dt>Why doesn't this plugin paste the result in Obsidian?</dt>
+                <dd>
+                    Since the extension cannot modify behavior outside of Chrome, 
+                    the extension is unable to paste the result there.
+                    However it's possible to chain two shortcuts (one for the extension, the other for pasting)
+                    with tools like Keyboard Meastro or AutoHotKey.
+                </dd>
+                <dt>
+                    Why do I need to approve <code>https://jplattel.github.io/obsidian-clipper/clip.html</code>
+                    to open Obsidian?
+                </dt>
+                <dd>
+                    This is the redirect page that opens Obsidian with the right vault & note. You will only need to 
+                    approve this once, further clips will use the same page and thus not require additional authorization.
+                </dd>
+                <dt>How safe is this extension to use?</dt>
+                <dd>
+                    I'm not storing or receiving any details about the clippings you do. In case of doubt, find someone 
+                    technical that can review <a href="https://github.com/jplattel/obsidian-clipper">the code</a> and figure out if it's safe!
+                </dd>
+                <dt>Why can't I install this via the normal Chrome plugin store?</dt>
+                <dd>
+                    This plugin uses a loophool to open the obsidian vault via a redirect to a page who does the redirect based on parameters.
+                    While this functionality is standard, the Chrome store surely wouldn't allow it.
+                </dd>
+                <dt>Who made this and why?!</dt>
+                <dd>
+                    Well, I'm glad you asked! That would be me, <a href="http://jplattel.nl/">Joost</a>. 
+                    As for why? I'd like to tinker around! Curious about more? Feel free to sign up to <a href="http://curiouscorner.nl/">my monthly newsletter</a>!
+                </dd>
+            </dl>
+
+            <hr>
+            <a href="http://emeralding.com/">
+                <svg style=" padding-bottom:50px" xmlns="http://www.w3.org/2000/svg" class="octagon" width="30" height="60" id="logo" viewBox="0 0 24 24">
+                    <path fill="white" d="M16.142 2l5.858 5.858v8.284l-5.858 5.858h-8.284l-5.858-5.858v-8.284l5.858-5.858h8.284zm.829-2h-9.942l-7.029 7.029v9.941l7.029 7.03h9.941l7.03-7.029v-9.942l-7.029-7.029z"></path>
+                </svg>
+            </a>
 
         </main>
 

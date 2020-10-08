@@ -44,6 +44,12 @@ input{
     border-radius: 3px;
 }
 
+#screencast{
+    border: 10px solid #333;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
 h1 {
     font-size: 70px;
     line-height: 86px;
@@ -70,4 +76,26 @@ button:hover{
 
 #status{
     padding-top: 20px;
+}
+
+#faq{
+    float: left;
+    text-align: left;
+}
+
+#faq dt{
+    
+}
+#faq dd{
+    margin-left: 0px;
+    margin-top: 10px;
+    color: #999;
+    margin-bottom: 30px;
+}
+
+dt code{
+    background-color: #111;
+    padding: 3px;
+    color: rgb(237, 237, 102);
+    border-radius: 4px;
 }
