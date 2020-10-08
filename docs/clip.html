@@ -1,0 +1,11 @@
+<script>
+    // Get params
+    const params = new URLSearchParams(window.location.search);
+
+    // Get vault & notes (with default)
+    const VAULT_NAME = params.get('vault') || 'obsidian'
+    const CLIPPING_NOTE_NAME = params.get('note') || 'Chrome Inbox'
+
+    // Redirect to open obsidian
+    window.location.href = `obsidian://vault/${VAULT_NAME}/${CLIPPING_NOTE_NAME}`
+</script>
