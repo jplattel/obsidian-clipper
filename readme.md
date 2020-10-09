@@ -1,5 +1,9 @@
 # Obsidian Chrome Clipper
 
+## Screencast
+
+![Screencast](docs/demo.gif)
+
 This is an unofficial Chrome Extension to quickly clip a selection on a webpage to Obsidian.
 
 ## Installing
