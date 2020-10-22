@@ -12,7 +12,7 @@ Since this extension is not yet published, a manual install is required. For thi
 
 1.  Download/clone this repository
 2.  Navigate to the [Chrome Extension](chrome://extensions) and enabled developer mode (top right of your window)
-3.  Load unpacked extension and navigate to the folder of this repository you just downloaded or cloned.
+3.  Load unpacked extension and navigate to the folder `src` of this repository you just downloaded or cloned.
 4.  Chrome will now build the extension and you can use the extension menu to pin in to the user interface.
 5.  You're now ready to configure the extension, see the steps below:
 

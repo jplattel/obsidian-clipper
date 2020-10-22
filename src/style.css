@@ -1,0 +1,101 @@
+body{
+    background-color: #202020;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+main{
+    margin: 0 auto;
+    display: block;
+    width: 900px;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+}
+
+p.description{
+    text-align: left;
+    color: #999;
+    line-height: 140%;
+}
+a {
+    color: #7f6df2;
+    text-decoration: none;
+}
+a:hover {
+    color: #8875ff;
+    text-decoration: underline;
+}
+
+.form-group label{
+    margin-top: 20px;
+    text-align: left;
+    float: left;
+    margin-bottom: 10px;
+}
+
+input{
+    width:100%;
+    padding: 15px;
+    box-sizing: border-box;
+    border: 0px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    border-radius: 3px;
+}
+
+#screencast{
+    border: 10px solid #333;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 70px;
+    line-height: 86px;
+    margin-bottom: 24px;
+    color: #f8f8f8;
+    font-family: 'Playfair', sans-serif;
+    font-weight: 800;
+}
+
+button{
+    margin-top: 20px;
+    font-size: 22px;
+    padding: 15px;
+    width: 100%;
+    border: 0px;
+    border-radius: 3px;
+}
+
+button:hover{
+    background-color: #483699;
+    color: white;
+    cursor: pointer;
+}
+
+#status{
+    padding-top: 20px;
+}
+
+#faq{
+    float: left;
+    text-align: left;
+}
+
+#faq dt{
+    
+}
+#faq dd{
+    margin-left: 0px;
+    margin-top: 10px;
+    color: #999;
+    margin-bottom: 30px;
+}
+
+dt code{
+    background-color: #111;
+    padding: 3px;
+    color: rgb(237, 237, 102);
+    border-radius: 4px;
+}
