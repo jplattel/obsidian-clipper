@@ -34,6 +34,10 @@ a:hover {
     margin-bottom: 10px;
 }
 
+.features li{
+    text-align: left;
+}
+
 input{
     width:100%;
     padding: 15px;
