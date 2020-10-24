@@ -4,6 +4,7 @@
         <title>Obsidian Clipper</title>
         <link rel="stylesheet" href="style.css">
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     </head>
     <body>
 
@@ -20,14 +21,27 @@
                 At this page you can configure the vault & note to append the clip to.
             </p>
 
-
             <div class="form-group">
                 <label for="obsidian_vault_name">Vault</label>
                 <input id="obsidian_vault_name" name="obsidian_vault_name" type="text" placeholder="obsidian">
             </div>
             <div class="form-group">
-                <label for="obsidian_vault_name">Note to clip to</label>
+                <label for="obsidian_note_name">Note to clip to</label>
                 <input id="obsidian_note_name" name="obsidian_note_name" type="text" placeholder="Chrome Clippings">
+            </div>
+
+            <div class="form-group">
+                <label for="obsidian_note_format">Clipping format </label>
+                <label id="reset_format">(reset)</label>
+                <textarea class="form-control" rows="6" id="obsidian_note_format" name="obsidian_note_format" type="text">> {clip}
+
+Clipped from [{title}]({url}) at {date}.</textarea>
+                <small class="form-text grey">Use {clip}, {date}, {title} and {url} as placeholders </small>
+            </div>
+
+            <div class="form-group">
+                <input data-toggle="toggle" name="select_as_markdown" type="checkbox" id="select_as_markdown">
+                <label for="select_as_markdown">Clip html as markdown <span class="grey">(just plain text by default)</span></label>
             </div>
 
             <button id="save">Save vault & note configuration</button>

@@ -15,7 +15,7 @@
         "open_in_tab": true
     },
     "browser_action": {
-        "default_title": "Clip to Obsidian"
+        "default_title": "Clip selection to Obsidian"
     },
     "permissions": [
         "tabs",

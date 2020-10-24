@@ -27,14 +27,36 @@ a:hover {
     text-decoration: underline;
 }
 
-.form-group label{
+.form-group label, .form-check label{
     margin-top: 20px;
     text-align: left;
     float: left;
     margin-bottom: 10px;
 }
+.form-group{
+    clear: both;
+}
+.form-text {
+    float: left;
+}
 
-input{
+.grey{
+    color: #7e7e7e
+}
+
+#reset_format{
+    float: right;
+    display: inline;
+}
+
+#select_as_markdown {
+    /* text-align: left; */
+    margin-top: 25px;
+    margin-right: 10px;
+    float: left;
+    width: inherit
+}
+input, textarea{
     width:100%;
     padding: 15px;
     box-sizing: border-box;
