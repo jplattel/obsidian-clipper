@@ -81,6 +81,10 @@ h1 {
     font-weight: 800;
 }
 
+#status{
+    clear: both;
+}
+
 button{
     margin-top: 20px;
     font-size: 22px;

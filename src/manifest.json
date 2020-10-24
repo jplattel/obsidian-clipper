@@ -1,15 +1,22 @@
 {
     "name": "Obsidian Clipper",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "manifest_version": 2,
     "description": "A small chrome plugin that let's you easily clip things to Obsidian",
     "homepage_url": "https://github.com/jplattel/obsidian-clipper",
     "background": {
         "scripts": [
+            "lib/webbrowser-polyfill.js",
             "background.js"
         ],
         "persistent": true
     },
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+        "js": [
+            "lib/webbrowser-polyfill.js"
+        ]
+    }],
     "options_ui": {
         "page": "options.html",
         "open_in_tab": true
@@ -18,6 +25,7 @@
         "default_title": "Clip selection to Obsidian"
     },
     "permissions": [
+        "https://jplattel.github.io/obsidian-clipper/clip.html",
         "tabs",
         "activeTab",
         "clipboardWrite",
@@ -27,5 +35,11 @@
         "16": "icons/favicon-16x16.png",
         "48": "icons/favicon-48x48.png",
         "128": "icons/favicon-128x128.png"
+    },
+    "applications": {
+        "gecko": {
+            "id": "j@jplattel.nl",
+            "strict_min_version": "53.0"
+        }
     }
 }

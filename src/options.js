@@ -29,7 +29,8 @@ function restore_options() {
         obsidianNoteName: 'Chrome Clippings',
         selectAsMarkdown: false,
         obsidianNoteFormat: `> {clip}
-        Clipped from [{title}]({url}) at {date}.`,
+
+Clipped from [{title}]({url}) at {date}.`,
     }, function(options) {
         document.getElementById('obsidian_vault_name').value = options.obsidianVaultName;
         document.getElementById('obsidian_note_name').value = options.obsidianNoteName;
