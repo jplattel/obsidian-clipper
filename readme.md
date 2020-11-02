@@ -60,4 +60,6 @@ This clipper is made possible with a work-around, since Chrome Extensions are fo
 
 ## Support
 
-Want to support me? You can do so via: [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/R6R62KRKX)
+Want to support me? You can do so via Ko-Fi: 
+
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/R6R62KRKX)
