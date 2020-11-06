@@ -12,7 +12,8 @@ Since this extension is not yet published, a manual install is required. For thi
 
 1.  Download/clone this repository
 2.  Navigate to the [Chrome Extension](chrome://extensions) and enabled developer mode (top right of your window)
-3.  Load unpacked extension and navigate to the folder `src` of this repository you just downloaded or cloned.
+3.  Unzip the extension at the `build/chrome` folder. Or straight from the source with the `src` folder.
+3.  Load unpacked extension and navigate to the folder you just unzipped or `src` of this repository you just downloaded or cloned.
 4.  Chrome will now build the extension and you can use the extension menu to pin in to the user interface.
 5.  You're now ready to configure the extension, see the steps below in Usage & Settings:
 
@@ -23,6 +24,8 @@ Since this extension is not yet published, a manual install is required. For thi
 3.  Navigate to the [Chrome Addons](about:addons) 
 4.  Add the zipfile from `build/firefox` through the cog menu.
 5.  You're now ready to configure the extension, see the steps below in Usage & Settings:
+
+This extenion is only tested on Chrome/Firefox on OS X. I've heard people got it working on Unix with the flatpak Obsidian app. 
 
 ## Usage & Settings
 

@@ -6,17 +6,10 @@
     "homepage_url": "https://github.com/jplattel/obsidian-clipper",
     "background": {
         "scripts": [
-            "lib/webbrowser-polyfill.js",
             "background.js"
         ],
         "persistent": true
     },
-    "content_scripts": [{
-        "matches": ["<all_urls>"],
-        "js": [
-            "lib/webbrowser-polyfill.js"
-        ]
-    }],
     "options_ui": {
         "page": "options.html",
         "open_in_tab": true

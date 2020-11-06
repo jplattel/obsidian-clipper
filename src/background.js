@@ -1,6 +1,7 @@
 
 
 chrome.browserAction.onClicked.addListener(function (tab) {
+    chrome.tabs.executeScript(null, { file: "lib/webbrowser-polyfill.js" }, function() {
     chrome.tabs.executeScript(null, { file: "lib/jquery.js" }, function() {
     chrome.tabs.executeScript(null, { file: "lib/rangy.js" }, function() {
     chrome.tabs.executeScript(null, { file: "lib/turndown.js" }, function() {
@@ -32,5 +33,6 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 
     });
     });   
+    });
     });
 });
