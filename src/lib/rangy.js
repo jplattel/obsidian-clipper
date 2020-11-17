@@ -1,11 +1,12 @@
+// https://raw.githubusercontent.com/timdown/rangy/1.3.0/lib/rangy-core.js
 /**
  * Rangy, a cross-browser JavaScript range and selection library
  * https://github.com/timdown/rangy
  *
- * Copyright 2019, Tim Down
+ * Copyright 2015, Tim Down
  * Licensed under the MIT license.
- * Version: 1.3.3
- * Build date: 2 January 2019
+ * Version: 1.3.0
+ * Build date: 10 May 2015
  */
 
 (function(factory, root) {
@@ -109,7 +110,7 @@
     };
 
     var api = {
-        version: "1.3.3",
+        version: "1.3.0",
         initialized: false,
         isBrowser: isBrowser,
         supported: true,
@@ -222,7 +223,7 @@
     })();
 
     // Very simple event handler wrapper function that doesn't attempt to solve issues such as "this" handling or
-    // normalization of event properties because we don't need this.
+    // normalization of event properties
     var addListener;
     if (isBrowser) {
         if (isHostMethod(document, "addEventListener")) {
@@ -1303,7 +1304,6 @@
         var getDocumentOrFragmentContainer = createAncestorFinder( [9, 11] );
         var getReadonlyAncestor = createAncestorFinder(readonlyNodeTypes);
         var getDocTypeNotationEntityAncestor = createAncestorFinder( [6, 10, 12] );
-        var getElementAncestor = createAncestorFinder( [1] );
 
         function assertNoDocTypeNotationEntityAncestor(node, allowSelf) {
             if (getDocTypeNotationEntityAncestor(node, allowSelf)) {
@@ -1366,7 +1366,7 @@
         var htmlParsingConforms = false;
         try {
             styleEl.innerHTML = "<b>x</b>";
-            htmlParsingConforms = (styleEl.firstChild.nodeType == 3); // Pre-Blink Opera incorrectly creates an element node
+            htmlParsingConforms = (styleEl.firstChild.nodeType == 3); // Opera incorrectly creates an element node
         } catch (e) {
             // IE 6 and 7 throw
         }
@@ -1967,12 +1967,6 @@
                             break;
                     }
 
-                    assertNoDocTypeNotationEntityAncestor(sc, true);
-                    assertValidOffset(sc, so);
-
-                    assertNoDocTypeNotationEntityAncestor(ec, true);
-                    assertValidOffset(ec, eo);
-
                     boundaryUpdater(this, sc, so, ec, eo);
                 },
 
@@ -2135,12 +2129,6 @@
                     assertNoDocTypeNotationEntityAncestor(node, true);
                     assertValidOffset(node, offset);
                     this.setStartAndEnd(node, offset);
-                },
-
-                parentElement: function() {
-                    assertRangeValid(this);
-                    var parentNode = this.commonAncestorContainer;
-                    return parentNode ? getElementAncestor(this.commonAncestorContainer, true) : null;
                 }
             });
 
@@ -2162,11 +2150,17 @@
             range.endContainer = endContainer;
             range.endOffset = endOffset;
             range.document = dom.getDocument(startContainer);
+
             updateCollapsedAndCommonAncestor(range);
         }
 
         function Range(doc) {
-            updateBoundaries(this, doc, 0, doc, 0);
+            this.startContainer = doc;
+            this.startOffset = 0;
+            this.endContainer = doc;
+            this.endOffset = 0;
+            this.document = doc;
+            updateCollapsedAndCommonAncestor(this);
         }
 
         createPrototypeRange(Range, updateBoundaries);

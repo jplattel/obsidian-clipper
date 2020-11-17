@@ -1,6 +1,6 @@
 {
     "name": "Obsidian Clipper",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "manifest_version": 2,
     "description": "A small chrome plugin that let's you easily clip things to Obsidian",
     "homepage_url": "https://github.com/jplattel/obsidian-clipper",
