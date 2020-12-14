@@ -36,6 +36,7 @@ This extenion is only tested on Chrome/Firefox on OS X. I've heard people got it
     -   `note`: The name of the note you want to append to
 4.  You can specify the clipping template using placeholders like `{clip}` and `{date}`.
 5.  Decide if you want a markdown clip (HTML is converted to markdown and added to your clipboard) or plain text.
+6.  You cen test if Obsidian opens with the right note with the 'Test Configuration' button. Please know that the chrome-plugin cannot paste the content, you will need to do that yourself!
 
 Once configured, you're now good to go, using it only takes two steps:
 
@@ -52,7 +53,7 @@ Since Chrome allows you to set a custom shortcut to activate an extenion it shou
 -   ~~Support Firefox~~
 -   ~~Allow a user to create a clipping template~~
 -   ~~Markdown clipping with [Turndown](https://github.com/domchristie/turndown)~~
--   Make a option that let's you prepend a Zettelkasten id to the clipping itself? (through the template perhaps?)
+-   ~~Make a option that let's you prepend a Zettelkasten id to the clipping itself? (through the template perhaps?)~~
 -   Once the url-scheme of Obsidian allows the creation of a new note, clip to a new note.
 -   In the long term future, maybe even offer the possiblity to search through your notes and append it?
 -   If you have any ideas, please create an issue with the `feature` label on it, thanks! 😁

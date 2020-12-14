@@ -11,6 +11,7 @@ main{
     color: white;
     font-size: 20px;
     text-align: center;
+    padding-bottom: 50px;
 }
 
 p.description{
@@ -47,6 +48,7 @@ a:hover {
 #reset_format{
     float: right;
     display: inline;
+    cursor: pointer;
 }
 
 #select_as_markdown {
@@ -55,6 +57,11 @@ a:hover {
     margin-right: 10px;
     float: left;
     width: inherit
+}
+
+.btn-half{
+    width: 50%;
+    float: left;
 }
 input, textarea{
     width:100%;
@@ -124,4 +131,39 @@ dt code{
     padding: 3px;
     color: rgb(237, 237, 102);
     border-radius: 4px;
+}
+
+
+
+
+.by-jplattel {
+    font-family:"Helvetica Neue",sans-serif;
+    right:0;
+    bottom:0;
+    position:fixed;
+    z-index:100;
+    border-top-left-radius: 5px;
+    padding: 6px;
+    border-top:1px solid #efefef;
+    border-left:1px solid #efefef;
+    background:#fff;
+    color:#6f6f6f;
+    text-decoration:none;
+}
+.by-jplattel:hover {
+    background:#fff;
+    color:#7f6df2;
+}
+.by-jplattel img {
+    border-radius:100%;
+    width:22px;
+    vertical-align:middle;
+}
+.by-jplattel p {
+    margin:0;
+    vertical-align:middle;
+    display:inline;
+    margin-left:7px;
+    font-weight:500;
+    font-size:14px;
 }

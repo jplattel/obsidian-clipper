@@ -45,6 +45,21 @@ function reset_format() {
 Clipped from [{title}]({url}) at {date}.`
 }
 
+function test_clipping() {
+    chrome.storage.sync.get({
+        obsidianVaultName: 'obsidian',
+        obsidianNoteName: 'Chrome Clippings',
+        selectAsMarkdown: false,
+        obsidianNoteFormat: `> {clip}
+
+Clipped from [{title}]({url}) at {date}.`,
+    }, function(options) {
+        redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip.html?vault=${options.obsidianVaultName}&note=${options.obsidianNoteName}`            
+        chrome.tabs.create({ url: redirectUrl , active: true});    
+    });
+}
+
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click', save_options);
 document.getElementById('reset_format').addEventListener('click', reset_format);
+document.getElementById('test').addEventListener('click', test_clipping);
