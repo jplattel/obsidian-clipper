@@ -39,13 +39,13 @@ Clipped from [{title}]({url}) at {date}.`
             var selection = window.getSelection()
         }
 
-        // Replace the placeholders:
-        noteFormat = noteFormat.replace('{clip}', selection)
-        noteFormat = noteFormat.replace('{date}', date)
-        noteFormat = noteFormat.replace('{datetime}', datetime)
-        noteFormat = noteFormat.replace('{url}', url)
-        noteFormat = noteFormat.replace('{title}', title)
-        noteFormat = noteFormat.replace('{zettel}', zettel)
+        // Replace the placeholders: (with regex so multiples are replaced as well..)
+        noteFormat = noteFormat.replace(/{clip}/g, selection)
+        noteFormat = noteFormat.replace(/{date}/g, date)
+        noteFormat = noteFormat.replace(/{datetime}/g, datetime)
+        noteFormat = noteFormat.replace(/{url}/g, url)
+        noteFormat = noteFormat.replace(/{title}/g, title)
+        noteFormat = noteFormat.replace(/{zettel}/g, zettel)
 
         console.log(noteFormat)
 
