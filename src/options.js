@@ -53,8 +53,8 @@ function test_clipping() {
         obsidianNoteFormat: `> {clip}
 
 Clipped from [{title}]({url}) at {date}.`,
-    }, function(options) {
-        redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip.html?vault=${options.obsidianVaultName}&note=${options.obsidianNoteName}`            
+    }, function(options) {        
+        redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip-to-new.html?vault=${options.obsidianVaultName}&note=${options.obsidianNoteName}&content=testing...`            
         chrome.tabs.create({ url: redirectUrl , active: true});    
     });
 }

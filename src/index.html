@@ -2,15 +2,16 @@
     const params = new URLSearchParams(queryString);
     const VAULT_NAME = 'obsidian'
     const CLIPPING_NOTE_NAME = 'Chrome Inbox'
+    const SILENT = false;
 
     prev = params.get('prev')
+    content = params.get('content') 
     vault = params.get('vault') || VAULT_NAME;
     note = params.get('note') || CLIPPING_NOTE_NAME;
+    silent = params.get('silent') || SILENT
 
-    console.log(prev, vault, note)
-
-    window.location.href = `obsidian://vault/${encodeURIComponent(vault)}/${encodeURIComponent(note)}`
-
+    window.location.href = `obsidian://new?vault=${encodeURIComponent(vault)}&${encodeURIComponent(note)}&content=${encodeURIComponent(content)}&silent=${silent}`
+    
     window.close() // close this tab
 
 </script>

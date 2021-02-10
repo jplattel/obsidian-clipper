@@ -21,18 +21,22 @@ chrome.browserAction.onClicked.addListener(function (tab) {
             const VAULT_NAME = options.obsidianVaultName;
             const CLIPPING_NOTE_NAME = options.obsidianNoteName;
 
+            options.obsidianNoteName
+
             // Copy current selection on the webpage we are currently on
-            chrome.tabs.executeScript(tab.ib, {file: 'clip.js'});
+            chrome.tabs.executeScript(tab.ib, {file: 'clip.js'}, function(clip){
 
-            // Redirect to page (which opens obsidian).
-            redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip.html?vault=${VAULT_NAME}&note=${CLIPPING_NOTE_NAME}`            
-            // window.location = 'obsidian://vault/${VAULT_NAME}/${CLIPPING_NOTE_NAME}'
+                // Redirect to page (which opens obsidian).
+                redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip-to-new.html?vault=${VAULT_NAME}&note=${CLIPPING_NOTE_NAME}&content=${clip}`            
 
-            // Create and remove the extra tab:
-            chrome.tabs.create({ url: redirectUrl , active: false},function(obsidianTab){
-                // Close the tab after one second..
-                setTimeout(function() { chrome.tabs.remove(obsidianTab.id) }, 1000);
+                // Create and remove the extra tab:
+                chrome.tabs.create({ url: redirectUrl , active: false},function(obsidianTab){
+                    // Close the tab after one second..
+                    setTimeout(function() { chrome.tabs.remove(obsidianTab.id) }, 1000);
+                });
             });
+            
+            
             
         });
 
