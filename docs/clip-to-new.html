@@ -1,0 +1,12 @@
+<script>
+    // Get params
+    const params = new URLSearchParams(window.location.search);
+
+    // Get vault & notes (with default)
+    const vault = params.get('vault') || 'obsidian'
+    const note = params.get('note') || 'Chrome Inbox'
+    const content = params.get('content') || "Unable get contents of the clip"
+
+    // Redirect to open obsidian
+    window.location.href = `obsidian://new?vault=${vault}&note${note}&content=${content}`
+</script>
