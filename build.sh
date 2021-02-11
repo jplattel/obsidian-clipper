@@ -4,7 +4,6 @@
 VERSION=$(jq -r .version src/manifest.json)
 echo "Version: ${VERSION}"
 
-
 echo "Building for Chrome"
 
 # Zip for deployment
