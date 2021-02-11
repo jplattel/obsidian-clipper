@@ -1,5 +1,5 @@
 // So Much For Subtlety
-(function() {
+;(async () => {
     var d = new Date()
     var date = d.toISOString().slice(0,10)
     var datetime = d.toISOString().slice(0,19)
@@ -8,52 +8,66 @@
     var url = window.location.href
     var defaultNoteFormat =  `> {clip}
 
-Clipped from [{title}]({url}) at {date}.`
-    
-    // Get noteFormat from settings
-    chrome.storage.sync.get({
-        obsidianNoteFormat: defaultNoteFormat,
+// Clipped from [{title}]({url}) at {date}.`
+
+    var defaultClippingOptions = {
         selectAsMarkdown: false,
-    }, function(options) {
+        obsidianNoteFormat: defaultNoteFormat,
+        obsidianNoteName: "Webclip",
+        clipAsNewNote: true,
+    }
 
-        // See if the noteFormat exists, otherwise use the default
-        if (options.obsidianNoteFormat) {
-            var noteFormat = options.obsidianNoteFormat
+    async function getFromStorage(key) {
+        return new Promise((resolve, reject) => {
+            chrome.storage.sync.get(key, resolve);
+        })
+    }
 
-        // Otherwise use the default
-        } else {
-            var noteFormat = defaultNoteFormat
-        }
+    var clippingOptions = await getFromStorage(defaultClippingOptions)
 
-        // If select html as markdown
-        if (options.selectAsMarkdown) {
-            // Get the HTML selected
-            var sel = rangy.getSelection().toHtml();
+    // If select html as markdown
+    if (clippingOptions.selectAsMarkdown) {
+        // Get the HTML selected
+        var sel = rangy.getSelection().toHtml();
 
-            // Turndown to markdown
-            var turndownService = new TurndownService()
-            var selection = turndownService.turndown(sel)
+        // Turndown to markdown
+        var turndownService = new TurndownService()
+        var selection = turndownService.turndown(sel)
 
-        // Otherwise plaintext
-        } else {
-            var selection = window.getSelection()
-        }
+    // Otherwise plaintext
+    } else {
+        var selection = window.getSelection()
+    }
+    
+    // Replace the placeholders: (with regex so multiples are replaced as well..)
+    note = clippingOptions.obsidianNoteFormat
+    note = note.replace(/{clip}/g, selection)
+    note = note.replace(/{date}/g, date)
+    note = note.replace(/{datetime}/g, datetime)
+    note = note.replace(/{url}/g, url)
+    note = note.replace(/{title}/g, title)
+    note = note.replace(/{zettel}/g, zettel)
 
-        // Replace the placeholders: (with regex so multiples are replaced as well..)
-        noteFormat = noteFormat.replace(/{clip}/g, selection)
-        noteFormat = noteFormat.replace(/{date}/g, date)
-        noteFormat = noteFormat.replace(/{datetime}/g, datetime)
-        noteFormat = noteFormat.replace(/{url}/g, url)
-        noteFormat = noteFormat.replace(/{title}/g, title)
-        noteFormat = noteFormat.replace(/{zettel}/g, zettel)
+    // replace the placeholder in the title: 
+    noteName = clippingOptions.obsidianNoteName
+    noteName = noteName.replace(/{clip}/g, selection)
+    noteName = noteName.replace(/{date}/g, date)
+    noteName = noteName.replace(/{datetime}/g, datetime)
+    noteName = noteName.replace(/{url}/g, url)
+    noteName = noteName.replace(/{title}/g, title)
+    noteName = noteName.replace(/{zettel}/g, zettel)
 
-        console.log(noteFormat)
-
+    // If we clip as a new note, 
+    if (clippingOptions.clipAsNewNote) {
+        console.log([noteName, note])
+        chrome.runtime.sendMessage([noteName, note])
+    // If we add to a note, prepare to copy to the clipboard
+    } else {
         // Create text-input to copy from:
         var copyFrom = $('<textarea/>');
 
         // Create text to copy and paste in the textarea
-        copyFrom.text(noteFormat);
+        copyFrom.text(note);
         $('body').append(copyFrom);
 
         // Select & copy the content
@@ -62,6 +76,8 @@ Clipped from [{title}]({url}) at {date}.`
 
         // Remove textarea
         copyFrom.remove();   
-    });
-
+        console.log([noteName, note])
+        chrome.runtime.sendMessage([noteName, note])
+    }
 })();
+

@@ -8,38 +8,51 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     chrome.tabs.executeScript(null, { file: "lib/webbrowser-polyfill.js" }, function() { // https://unpkg.com/webextension-polyfill@0.6.0/dist/browser-polyfill.js
     chrome.tabs.executeScript(null, { file: "lib/jquery.js" }, function() { // https://code.jquery.com/jquery-3.5.1.min.js
     chrome.tabs.executeScript(null, { file: "lib/rangy.js" }, function() { // https://raw.githubusercontent.com/timdown/rangy/1.3.0/lib/rangy-core.js
-    chrome.tabs.executeScript(null, { file: "lib/turndown.js" }, function() { // https://unpkg.com/turndown@7.0.0/dist/turndown.js
+    chrome.tabs.executeScript(null, { file: "lib/turndown.js" }, async function() { // https://unpkg.com/turndown@7.0.0/dist/turndown.js
 
         // Get the vault and note name configured in the settings, 
         // defaulting to `obsidian` and `Chrome Clippings` respectively
-        chrome.storage.sync.get({
-            obsidianVaultName: 'obsidian',
-            obsidianNoteName: 'Chrome Clippings',
-        }, function(options) {
+        var defaultClippingOptions = {
+            obsidianVaultName: "Obsdian",
+            clipAsNewNote: true,
+        }
+    
+        async function getFromStorage(key) {
+            return new Promise((resolve, reject) => {
+                chrome.storage.sync.get(key, resolve);
+            })
+        }
 
-            // Get vault & note from settings:
-            const VAULT_NAME = options.obsidianVaultName;
-            const CLIPPING_NOTE_NAME = options.obsidianNoteName;
+        var clippingOptions = await getFromStorage(defaultClippingOptions)
 
-            options.obsidianNoteName
+        // Get vault & and if we clip as a new note:
+        const vault = clippingOptions.obsidianVaultName;
+        const clipAsNewNote = clippingOptions.clipAsNewNote;
 
-            // Copy current selection on the webpage we are currently on
-            chrome.tabs.executeScript(tab.ib, {file: 'clip.js'}, function(clip){
+        chrome.runtime.onMessage.addListener(result => {
+            console.log(result)
+            var noteName = result[0]
+            var note = result[1]
 
-                // Redirect to page (which opens obsidian).
-                redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip-to-new.html?vault=${VAULT_NAME}&note=${CLIPPING_NOTE_NAME}&content=${clip}`            
+            console.log(noteName, note)
+            // Redirect to page (which opens obsidian).
+            if (clipAsNewNote) {
+                redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip-to-new.html?vault=${vault}&note=${noteName}&content=${note}`
+            } else {
+                redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip.html?vault=${vault}&note=${noteName}`
+            }
 
-                // Create and remove the extra tab:
-                chrome.tabs.create({ url: redirectUrl , active: false},function(obsidianTab){
-                    // Close the tab after one second..
-                    setTimeout(function() { chrome.tabs.remove(obsidianTab.id) }, 1000);
-                });
+            // Create and remove the extra tab:
+            chrome.tabs.create({ url: redirectUrl , active: true},function(obsidianTab){
+                // Close the tab after one second..
+                setTimeout(function() { chrome.tabs.remove(obsidianTab.id) }, 1000);
             });
-            
-            
-            
         });
 
+        chrome.tabs.executeScript(tab.id, {file: 'clip.js'}, () => {
+            console.log("started clipping..")
+        })
+        
     });
     });   
     });

@@ -51,13 +51,14 @@ a:hover {
     cursor: pointer;
 }
 
-#select_as_markdown {
+#select_as_markdown, #clip_as_new_note {
     /* text-align: left; */
     margin-top: 25px;
     margin-right: 10px;
     float: left;
     width: inherit
 }
+
 
 .btn-half{
     width: 50%;
