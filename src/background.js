@@ -29,15 +29,19 @@ chrome.browserAction.onClicked.addListener(function (tab) {
         const vault = clippingOptions.obsidianVaultName;
         const clipAsNewNote = clippingOptions.clipAsNewNote;
 
-        chrome.runtime.onMessage.addListener(result => {
+        chrome.runtime.onMessage.addListener(function listener(result) {
+            // Remove listener to prevent trigger multiple times
+            chrome.runtime.onMessage.removeListener(listener);
+
             console.log(result)
             var noteName = result[0]
-            var note = result[1]
+            var note = encodeURIComponent(result[1])
 
             console.log(noteName, note)
             // Redirect to page (which opens obsidian).
             if (clipAsNewNote) {
-                redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip-to-new.html?vault=${vault}&note=${noteName}&content=${note}`
+                redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip-to-new.html?vault=${vault}&note=${noteName}&content=${encodeURIComponent(note)}`
+                console.log(redirectUrl)
             } else {
                 redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip.html?vault=${vault}&note=${noteName}`
             }
@@ -45,7 +49,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
             // Create and remove the extra tab:
             chrome.tabs.create({ url: redirectUrl , active: true},function(obsidianTab){
                 // Close the tab after one second..
-                setTimeout(function() { chrome.tabs.remove(obsidianTab.id) }, 1000);
+                // setTimeout(function() { chrome.tabs.remove(obsidianTab.id) }, 1000);
             });
         });
 

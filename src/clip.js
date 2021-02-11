@@ -38,6 +38,8 @@
     } else {
         var selection = window.getSelection()
     }
+
+    console.log(selection, clippingOptions.obsidianNoteFormat)
     
     // Replace the placeholders: (with regex so multiples are replaced as well..)
     note = clippingOptions.obsidianNoteFormat
