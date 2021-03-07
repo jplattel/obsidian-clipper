@@ -7,12 +7,17 @@ function save_options() {
     var obsidianNoteFormat = document.getElementById('obsidian_note_format').value;
     var selectAsMarkdown = document.getElementById('select_as_markdown').checked;
     var clipAsNewNote = document.getElementById('clip_as_new_note').checked;
+    var dateFormat = document.getElementById('date_format').value;
+    var datetimeFormat = document.getElementById('datetime_format').value;
+
     chrome.storage.sync.set({
         obsidianVaultName: obsidianVaultName,
         obsidianNoteName: obsidianNoteName,
         selectAsMarkdown, selectAsMarkdown,
         obsidianNoteFormat, obsidianNoteFormat,
         clipAsNewNote: clipAsNewNote,
+        dateFormat: dateFormat,
+        datetimeFormat: datetimeFormat,
     }, function() {
         // Update status to let user know options were saved.
         var status = document.getElementById('status');
@@ -34,17 +39,20 @@ function restore_options() {
 
 Clipped from [{title}]({url}) at {date}.`,
         clipAsNewNote: true,
+        dateFormat: "YYYY-MM-DD",
+        datetimeFormat: "YYYY-MM-DD HH:mm:ss",
     }, function(options) {
         document.getElementById('obsidian_vault_name').value = options.obsidianVaultName;
         document.getElementById('obsidian_note_name').value = options.obsidianNoteName;
         document.getElementById('obsidian_note_format').value = options.obsidianNoteFormat;
         document.getElementById('select_as_markdown').checked = options.selectAsMarkdown;
         document.getElementById('clip_as_new_note').checked = options.clipAsNewNote;
+        document.getElementById('date_format').value = options.dateFormat;
+        document.getElementById('datetime_format').value = options.datetimeFormat;
     });
 }
 
 function reset_format() {
-    console.log("resetting")
     document.getElementById('obsidian_note_format').value = `> {clip}
 Clipped from [{title}]({url}) at {date}.`
 }
@@ -58,12 +66,14 @@ function test_clipping() {
 
 Clipped from [{title}]({url}) at {date}.`,
         clipAsNewNote: true,
+        dateFormat: "YYYY-MM-DD",
+        datetimeFormat: "YYYY-MM-DD HH:mm:ss",
     }, function(options) {
 
         // Replace with real data
         var d = new Date()
-        var date = d.toISOString().slice(0,10)
-        var datetime = d.toISOString().slice(0,19)
+        var date = moment().format(options.dateFormat)
+        var datetime = moment().format(options.datetimeFormat)
         var zettel = d.getFullYear().toString() + (d.getMonth()+1).toString() + d.getDate().toString() + d.getHours().toString() + d.getMinutes().toString() + d.getSeconds().toString(); 
         var url = 'https://jplattel.github.io/obsidian-clipper/'
         var title = "Obsidian Clipper"

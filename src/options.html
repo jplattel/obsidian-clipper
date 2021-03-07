@@ -55,6 +55,16 @@ Clipped from [{title}]({url}) at {date}.</textarea>
                 <label for="select_as_markdown">Clip html as markdown <span class="grey">(just plain text by default)</span></label>
             </div>
 
+            <div class="form-group">
+                <label for="date_format">Date format</label>
+                <input id="date_format" name="date_format" type="text" placeholder="YYYY-MM-DD">
+            </div>
+
+            <div class="form-group">
+                <label for="datetime_format">Datetime format</label>
+                <input id="datetime_format" name="datetime_format" type="text" placeholder="YYYY-MM-DD HH:MM:SS">
+            </div>
+
             <div id="status"></div>
 
             <button style="margin-bottom: 20px;" id="save">Save vault & note configuration</button>
@@ -62,7 +72,7 @@ Clipped from [{title}]({url}) at {date}.</textarea>
 
         </main>
 
-        
+    <script src="lib/moment.js"></script>    
     <script src="options.js"></script>
 
     <a target="_blank" rel="noopener" class="by-jplattel" href="https://jplattel.nl/"><img src="https://jplattel.nl/img/joostplattel_small_cropped.png" /><p>by jplattel</p></a>

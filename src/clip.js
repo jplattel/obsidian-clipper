@@ -1,8 +1,6 @@
 // So Much For Subtlety
 ;(async () => {
     var d = new Date()
-    var date = d.toISOString().slice(0,10)
-    var datetime = d.toISOString().slice(0,19)
     var zettel = d.getFullYear().toString() + (d.getMonth()+1).toString() + d.getDate().toString() + d.getHours().toString() + d.getMinutes().toString() + d.getSeconds().toString(); 
     var title = document.title
     var url = window.location.href
@@ -15,6 +13,8 @@
         obsidianNoteFormat: defaultNoteFormat,
         obsidianNoteName: "Webclip",
         clipAsNewNote: true,
+        dateFormat: "YYYY-MM-DD",
+        datetimeFormat: "YYYY-MM-DD HH:mm:ss",
     }
 
     async function getFromStorage(key) {
@@ -24,6 +24,10 @@
     }
 
     var clippingOptions = await getFromStorage(defaultClippingOptions)
+
+    var date = moment().format(clippingOptions.dateFormat)
+    var datetime = moment().format(clippingOptions.datetimeFormat)
+    
 
     // If select html as markdown
     if (clippingOptions.selectAsMarkdown) {
@@ -58,6 +62,8 @@
     noteName = noteName.replace(/{url}/g, url)
     noteName = noteName.replace(/{title}/g, title)
     noteName = noteName.replace(/{zettel}/g, zettel)
+    noteName = noteName.replace(/\//g, '') // Replace / in the name as it's not allowed
+    noteName = noteName.replace(/:/g, '') // Replace : in the name as it's not allowed
 
     // If we clip as a new note, 
     if (clippingOptions.clipAsNewNote) {
