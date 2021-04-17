@@ -2,7 +2,7 @@
 ;(async () => {
     var d = new Date()
     var zettel = d.getFullYear().toString() + (d.getMonth()+1).toString() + d.getDate().toString() + d.getHours().toString() + d.getMinutes().toString() + d.getSeconds().toString(); 
-    var title = document.title
+    var title = document.title.replace(/\//g, '')
     var url = window.location.href
     var defaultNoteFormat =  `> {clip}
 
@@ -60,7 +60,7 @@
     noteName = noteName.replace(/{url}/g, url)
     noteName = noteName.replace(/{title}/g, title)
     noteName = noteName.replace(/{zettel}/g, zettel)
-    noteName = noteName.replace(/\//g, '') // Replace / in the name as it's not allowed
+    // noteName = noteName.replace(/\//g, '') // Replace / in the name as it's not allowed
     noteName = noteName.replace(/:/g, '') // Replace : in the name as it's not allowed
 
     // If we clip as a new note, 
