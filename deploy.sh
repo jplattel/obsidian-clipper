@@ -23,3 +23,8 @@ web-ext build # Build for firefox
 mv web-ext-artifacts/obsidian_clipper-${VERSION}.zip ../build/firefox/firefox-obsidian-clipper-${VERSION}.zip
 rm -rf web-ext-artifacts # Remove the build folder
 cd ../
+
+# Push to github
+git add build
+git commit -m "Releasing ${VERSION}"
+git push origin main
