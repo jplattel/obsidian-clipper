@@ -1,4 +1,3 @@
-console.log('js loaded')
 
 // Saves options to chrome.storage
 function save_options() {
@@ -93,11 +92,24 @@ Clipped from [{title}]({url}) at {date}.`,
         noteName = noteName.replace(/{datetime}/g, datetime)
         noteName = noteName.replace(/{url}/g, url)
         noteName = noteName.replace(/{title}/g, title)
-        noteName = noteName.replace(/{zettel}/g, zettel)
+        noteName = noteName.replace(/{zettel}/g, zettel)    
 
         if (options.clipAsNewNote) {
+            note = note.replace(/\n/g, '%0A') // Encode the new line character
             redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip-to-new.html?vault=${options.obsidianVaultName}&note=${noteName}&content=${encodeURIComponent(note)}`            
         } else {
+            // Get the clipping format
+            var clipFormat = document.getElementById('obsidian_note_format').value
+            
+            // Create text to copy and paste in the textarea so we can select it for copying
+            document.getElementById('obsidian_note_format').value = note
+            document.getElementById('obsidian_note_format').select()
+            document.execCommand('copy')
+
+            // Reset to the clipping format
+            document.getElementById('obsidian_note_format').value = clipFormat
+            
+            // Open redirect to open the specified note in Obsidian
             redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip.html?vault=${options.obsidianVaultName}&note=${noteName}`
         }
         chrome.tabs.create({ url: redirectUrl , active: true});    

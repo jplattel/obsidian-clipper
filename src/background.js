@@ -50,7 +50,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
             // Create and remove the extra tab:
             chrome.tabs.create({ url: redirectUrl , active: true},function(obsidianTab){
                 // Close the tab after one second..
-                setTimeout(function() { chrome.tabs.remove(obsidianTab.id) }, 1000);
+                // setTimeout(function() { chrome.tabs.remove(obsidianTab.id) }, 1000);
             });
         });
 

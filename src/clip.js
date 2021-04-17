@@ -42,8 +42,6 @@
     } else {
         var selection = window.getSelection()
     }
-
-    console.log(selection, clippingOptions.obsidianNoteFormat)
     
     // Replace the placeholders: (with regex so multiples are replaced as well..)
     note = clippingOptions.obsidianNoteFormat
@@ -67,7 +65,6 @@
 
     // If we clip as a new note, 
     if (clippingOptions.clipAsNewNote) {
-        console.log([noteName, note])
         chrome.runtime.sendMessage([noteName, note])
     // If we add to a note, prepare to copy to the clipboard
     } else {
@@ -84,7 +81,6 @@
 
         // Remove textarea
         copyFrom.remove();   
-        console.log([noteName, note])
         chrome.runtime.sendMessage([noteName, note])
     }
 })();
