@@ -8,7 +8,11 @@ This is an unofficial Chrome Extension to quickly clip a selection on a webpage 
 
 ## Installing (Chrome)
 
-Since this extension is not yet published, a manual install is required. For this you will need to do the following:
+### From the Chrome Webstore
+
+https://chrome.google.com/webstore/detail/obsidian-clipper/mphkdfmipddgfobjhphabphmpdckgfhb
+
+### Manually
 
 1.  Download/clone this repository
 2.  Navigate to the [Chrome Extension](chrome://extensions) and enabled developer mode (top right of your window)
