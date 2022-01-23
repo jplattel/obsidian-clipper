@@ -1,7 +1,5 @@
 // So Much For Subtlety
 ; (async () => {
-    var d = new Date()
-    var zettel = d.getFullYear().toString() + (d.getMonth() + 1).toString() + d.getDate().toString() + d.getHours().toString() + d.getMinutes().toString() + d.getSeconds().toString();
     var title = document.title.replace(/\//g, '')
     var url = window.location.href
     var defaultNoteFormat = `> {clip}
@@ -35,14 +33,33 @@
     var month = moment().format("MM")
     var year = moment().format("YYYY")
 
+    var zettel = moment().format("YYYYMMDDHHmmss")
+    
     // If select html as markdown
     if (clippingOptions.selectAsMarkdown) {
         // Get the HTML selected
         var sel = rangy.getSelection().toHtml();
 
         // Turndown to markdown
-        var turndownService = new TurndownService()
-        var selection = turndownService.turndown(sel)
+        var turndown = new TurndownService()
+
+        // This rule constructs url to be absolute URLs for links & images
+        var turndownWithAbsoluteURLs = turndown.addRule('baseUrl', {
+            filter: ['a', 'img'],
+            replacement: function (content, el, options) {
+                if (el.nodeName === 'IMG') {
+                    var link =  el.getAttributeNode('src').value;
+                    var fullLink = new URL(link, url)
+                    return `![${content}](${fullLink.href})`
+                } else if (el.nodeName === 'A') {
+                    var link =  el.getAttributeNode('href').value;
+                    var fullLink = new URL(link, url)
+                    return `[${content}](${fullLink.href})`
+                }
+            }
+        })
+
+        var selection = turndownWithAbsoluteURLs.turndown(sel)
 
         // Otherwise plaintext
     } else {

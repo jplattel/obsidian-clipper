@@ -34,17 +34,16 @@ chrome.browserAction.onClicked.addListener(function (tab) {
             // Remove listener to prevent trigger multiple times
             chrome.runtime.onMessage.removeListener(listener);
 
-            console.log(result)
             var noteName = result[0]
             var note = encodeURIComponent(result[1])
 
             console.log(noteName, note)
             // Redirect to page (which opens obsidian).
             if (clipAsNewNote) {
-                redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip-to-new.html?vault=${vault}&note=${noteName}&content=${encodeURIComponent(note)}`
+                redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip-to-new.html?vault=${encodeURIComponent(vault)}&note=${noteName}&content=${encodeURIComponent(note)}`
                 console.log(redirectUrl)
             } else {
-                redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip.html?vault=${vault}&note=${noteName}`
+                redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip.html?vault=${encodeURIComponent(vault)}&note=${noteName}`
             }
 
             // Create and remove the extra tab:

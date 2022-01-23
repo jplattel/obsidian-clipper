@@ -38,7 +38,7 @@ This extenion is only tested on Chrome/Firefox on OS X. I've heard people got it
 3.  You can configure the following:
     -   `vault`: Allows you to specify which vault to open
     -   `note`: The name of the note you want to append to
-4.  You can specify the clipping template using placeholders like `{clip}` and `{date}`.
+4.  You can specify the clipping template using placeholders like `{clip}`, `{date}` and more like `{month}` or `{year}`.
 5.  Decide if you want a markdown clip (HTML is converted to markdown and added to your clipboard) or plain text.
 6.  You cen test if Obsidian opens with the right note with the 'Test Configuration' button. Please know that the chrome-plugin cannot paste the content, you will need to do that yourself!
 

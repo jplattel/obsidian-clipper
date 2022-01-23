@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0
+
+-   Absolute URLs for links and images!
+-   Fixed zettlekasten ID missing zeroes due to date formatting 
+
+## 0.2.6
+
+-   Added more template things (thanks to [@Mearman](https://github.com/Mearman))
+
 ## 0.1.3
 
 -   Added a {zettel} placeholder for a zettelkasten id.
@@ -17,3 +26,4 @@
 ## 0.1.0
 
 -   Initial release for Firefox & Chrome.
+
