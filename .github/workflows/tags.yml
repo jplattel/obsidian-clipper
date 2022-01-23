@@ -3,7 +3,7 @@ on:
   create:
     tags:
       # tags that are major minor or patch
-      - 'v?\d+\.\d+\.\d+'
+      - '?\d+\.\d+\.\d+'
   workflow_dispatch:
 jobs:
   deploy:
