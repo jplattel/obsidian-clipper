@@ -53,3 +53,13 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: true
           prerelease: false
+      - name: Upload Chrome extension file
+        id: upload-chrome-crx
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: build/chrome/chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}.crx
+          asset_name: chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}.crx
+          asset_content_type: application/x-chrome-extension
