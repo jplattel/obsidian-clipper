@@ -1,5 +1,14 @@
 # Changelog
 
+
+## 0.3.2
+
+-   Hopefully configured now!
+
+## 0.3.1 
+
+-   Try to automate releases, not working due to a misconfigured github workflow
+
 ## 0.3.0
 
 -   Absolute URLs for links and images!
