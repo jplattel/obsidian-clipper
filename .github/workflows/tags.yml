@@ -1,0 +1,53 @@
+name: Tags
+on:
+  create:
+    tags:
+      # tags that are major minor or patch
+      - 'v?\d+\.\d+\.\d+'
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      - id: compressExtension
+        uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
+        with:
+          extensionDir: "src"
+          zipFilePath: "build/chrome/chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}.zip"
+          # job to copy previous zip into build/firefox directory
+      - id: firefox
+        run: |
+          mkdir -p build/firefox
+          cp build/chrome/chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}.zip build/firefox/
+      - id: packExtension
+        uses: cardinalby/webext-buildtools-chrome-crx-action@v2
+        with:
+          # zip file made at the packExtensionDir step
+          zipFilePath: "build/chrome/chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}.zip"
+          crxFilePath: "build/chrome/chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}.crx"
+          privateKey: ${{ secrets.CHROME_CRX_PRIVATE_KEY }}
+          # The following is optional if you need update.xml file
+          # updateXmlPath: 'build/update.xml'
+          # updateXmlCodebaseUrl: 'http://...'
+      # commit the new version
+      - name: Commit the new version
+        id: commit_new_version
+        run: |
+          git add build/chrome/chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}.crx
+          git add build/chrome/chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}.zip
+          git add build/firefox/chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}.zip
+          git commit -m "Release chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: false
