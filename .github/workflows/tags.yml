@@ -37,6 +37,8 @@ jobs:
       - name: Commit the new version
         id: commit_new_version
         run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git add build/chrome/chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}.crx
           git add build/chrome/chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}.zip
           git add build/firefox/chrome-obsidian-clipper-${{ steps.get_version.outputs.VERSION }}.zip
