@@ -1,10 +1,10 @@
 // So Much For Subtlety
-;(async () => {
+; (async () => {
     var d = new Date()
-    var zettel = d.getFullYear().toString() + (d.getMonth()+1).toString() + d.getDate().toString() + d.getHours().toString() + d.getMinutes().toString() + d.getSeconds().toString(); 
+    var zettel = d.getFullYear().toString() + (d.getMonth() + 1).toString() + d.getDate().toString() + d.getHours().toString() + d.getMinutes().toString() + d.getSeconds().toString();
     var title = document.title.replace(/\//g, '')
     var url = window.location.href
-    var defaultNoteFormat =  `> {clip}
+    var defaultNoteFormat = `> {clip}
 
 // Clipped from [{title}]({url}) at {date}.`
 
@@ -15,6 +15,7 @@
         clipAsNewNote: true,
         dateFormat: "YYYY-MM-DD",
         datetimeFormat: "YYYY-MM-DD HH:mm:ss",
+        timeFormat: "HH:mm:ss",
     }
 
     async function getFromStorage(key) {
@@ -27,7 +28,12 @@
 
     var date = moment().format(clippingOptions.dateFormat)
     var datetime = moment().format(clippingOptions.datetimeFormat)
-    
+
+    var time = moment().format(clippingOptions.timeFormat)
+
+    var day = moment().format("DD")
+    var month = moment().format("MM")
+    var year = moment().format("YYYY")
 
     // If select html as markdown
     if (clippingOptions.selectAsMarkdown) {
@@ -38,16 +44,20 @@
         var turndownService = new TurndownService()
         var selection = turndownService.turndown(sel)
 
-    // Otherwise plaintext
+        // Otherwise plaintext
     } else {
         var selection = window.getSelection()
     }
-    
+
     // Replace the placeholders: (with regex so multiples are replaced as well..)
     note = clippingOptions.obsidianNoteFormat
     note = note.replace(/{clip}/g, selection)
     note = note.replace(/{date}/g, date)
     note = note.replace(/{datetime}/g, datetime)
+    note = note.replace(/{time}/g, time)
+    note = note.replace(/{day}/g, day)
+    note = note.replace(/{month}/g, month)
+    note = note.replace(/{year}/g, year)
     note = note.replace(/{url}/g, url)
     note = note.replace(/{title}/g, title)
     note = note.replace(/{zettel}/g, zettel)
@@ -57,6 +67,10 @@
     noteName = noteName.replace(/{clip}/g, selection)
     noteName = noteName.replace(/{date}/g, date)
     noteName = noteName.replace(/{datetime}/g, datetime)
+    noteName = noteName.replace(/{time}/g, time)
+    noteName = noteName.replace(/{day}/g, day)
+    noteName = noteName.replace(/{month}/g, month)
+    noteName = noteName.replace(/{year}/g, year)
     noteName = noteName.replace(/{url}/g, url)
     noteName = noteName.replace(/{title}/g, title)
     noteName = noteName.replace(/{zettel}/g, zettel)
@@ -66,7 +80,7 @@
     // If we clip as a new note, 
     if (clippingOptions.clipAsNewNote) {
         chrome.runtime.sendMessage([noteName, note])
-    // If we add to a note, prepare to copy to the clipboard
+        // If we add to a note, prepare to copy to the clipboard
     } else {
         // Create text-input to copy from:
         var copyFrom = $('<textarea/>');
@@ -80,7 +94,7 @@
         document.execCommand('copy');
 
         // Remove textarea
-        copyFrom.remove();   
+        copyFrom.remove();
         chrome.runtime.sendMessage([noteName, note])
     }
 })();
