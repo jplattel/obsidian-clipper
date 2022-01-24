@@ -34,7 +34,7 @@
     var year = moment().format("YYYY")
 
     var zettel = moment().format("YYYYMMDDHHmmss")
-    
+
     // If select html as markdown
     if (clippingOptions.selectAsMarkdown) {
         // Get the HTML selected
@@ -78,6 +78,14 @@
     note = note.replace(/{url}/g, url)
     note = note.replace(/{title}/g, title)
     note = note.replace(/{zettel}/g, zettel)
+
+    // Clip the og:image if it exists
+    if (document.querySelector('meta[property="og:image"]')) {
+        var image = document.querySelector('meta[property="og:image"]').content
+        note = note.replace(/{og:image}/g, `![](${image})`) // image only works in the content of the note
+    } else {
+        note = note.replace(/{og:image}/g, "")
+    }
 
     // replace the placeholder in the title: 
     noteName = clippingOptions.obsidianNoteName

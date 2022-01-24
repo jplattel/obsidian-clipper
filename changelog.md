@@ -1,5 +1,11 @@
 # Changelog
+## 0.3.4
 
+-   You can now use the `{og:image}` placeholder to add an image to the note (This closes [#23](https://github.com/jplattel/obsidian-clipper/issues/23)).
+
+## 0.3.3
+
+-   Release through github actions now works and adds the zip and crx files
 
 ## 0.3.2
 
