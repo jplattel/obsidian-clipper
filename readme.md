@@ -25,7 +25,7 @@ https://chrome.google.com/webstore/detail/obsidian-clipper/mphkdfmipddgfobjhphab
 
 1.  Download/clone this repository
 2.  Allow unsigned extensions, see [https://www.thewindowsclub.com/allow-unsigned-extensions-installed-firefox](https://www.thewindowsclub.com/allow-unsigned-extensions-installed-firefox).
-3.  Navigate to the [Chrome Addons](about:addons) 
+3.  Navigate to the [Firefox Addons](about:addons) 
 4.  Add the zipfile from `build/firefox` through the cog menu.
 5.  You're now ready to configure the extension, see the steps below in Usage & Settings:
 
@@ -46,6 +46,17 @@ Once configured, you're now good to go, using it only takes two steps:
 
 1.  Make a selection on a page and click the icon of the extension _(or use a shortcut key!)_.
 2.  Obsidian will try to open the specific note within the vault you specified, you can then paste your clipping!
+
+## Troubleshooting
+
+-   I click the clipper icon and nothing is being clipped 
+    -   _You need a selection for the clipper to work, it doesn't clip entire pages_
+-   A tab opens and closes shortly therafter and Obsidian doens't open
+    -   Double check you [configuration](chrome-extension://ljdpoilhdidlcanedjhionbakimbdfjk/options.html) and test it with the button at the bottom of the page.
+    -    _Manually navigate to `obsidian://` first to see if it's a permission issue_
+    -   _Then try opening: `https://jplattel.github.io/obsidian-clipper/clip.html`_
+    -   _Try specifying the vault name: `https://jplattel.github.io/obsidian-clipper/clip.html?vault=<vaultname>`_
+    -   _If nothing works, please make a note at issue [#14](https://github.com/jplattel/obsidian-clipper/issues/14)_
 
 
 ## Building further upon this extension
