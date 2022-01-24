@@ -26,7 +26,7 @@ cd ../
 
 # Push to github
 git add build
-git tag ${VERSION}
 git commit -m "Releasing ${VERSION}"
+git tag ${VERSION}
 git push origin main
 git push --tags
