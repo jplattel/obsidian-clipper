@@ -1,4 +1,10 @@
 # Changelog
+
+## 0.3.5
+
+-   Fixed [datetime issue (#32)](https://github.com/jplattel/obsidian-clipper/issues/32).
+-   Fixed [better documentation for new note in folder (#33)](https://github.com/jplattel/obsidian-clipper/issues/33)
+
 ## 0.3.4
 
 -   You can now use the `{og:image}` placeholder to add an image to the note (This closes [#23](https://github.com/jplattel/obsidian-clipper/issues/23)).
