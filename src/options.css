@@ -34,6 +34,13 @@ a:hover {
     float: left;
     margin-bottom: 10px;
 }
+.form-group label small, .form-check label small{
+    font-size: 14px;
+    padding: 3px;
+    border-radius: 4px;
+    background-color: rgb(54, 54, 54);
+    color: #7e7e7e
+}
 .form-group{
     clear: both;
 }

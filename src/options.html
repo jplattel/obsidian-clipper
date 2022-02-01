@@ -23,7 +23,7 @@
             </p>
 
             <div class="form-group">
-                <label for="obsidian_vault_name">Vault name (just the name)</label>
+                <label for="obsidian_vault_name">Vault name <small>(just the name, like 'obsidian' or 'notes')</small></label>
                 <input id="obsidian_vault_name" name="obsidian_vault_name" type="text" placeholder="obsidian">
             </div>
             
@@ -31,14 +31,14 @@
                 <input data-toggle="toggle" name="clip_as_new_note" type="checkbox" id="clip_as_new_note">
                 <label for="clip_as_new_note">
                     Clip and create a new note
-                    <small class="grey small">(otherwise the specified note is opened and you can paste the content manually)</small>
+                    <small class="small">(otherwise the specified note is opened and you can paste the content manually)</small>
                 </label>
             </div>
             
             <div class="form-group">
-                <label for="obsidian_note_name">Note to clip to</label>
+                <label for="obsidian_note_name">Note to clip to <small>(You can specify the a folder as well, like `notes/{title}-{date}`)</small></label>
                 <input id="obsidian_note_name" name="obsidian_note_name" type="text" placeholder="clips/{zettel}">
-                <small class="form-text grey">Use {date}, {datetime}, {year}, {month}, {day}, {time}, {title}, {zettel} and {url} as placeholders </small>
+                <small class="form-text grey">Use {date}, {datetime}, {year}, {month}, {day}, {time}, {title} and {zettel} as placeholders </small>
             </div>
 
             <div class="form-group">
@@ -55,16 +55,20 @@ Clipped from [{title}]({url}) at {date}.</textarea>
                 <label for="select_as_markdown">Clip html as markdown <span class="grey">(just plain text by default)</span></label>
             </div>
 
-            <div class="form-group">
-                <label for="date_format">Date format</label>
-                <input id="date_format" name="date_format" type="text" placeholder="YYYY-MM-DD">
-            </div>
-
+            
             <div class="form-group">
                 <label for="datetime_format">Datetime format</label>
                 <input id="datetime_format" name="datetime_format" type="text" placeholder="YYYY-MM-DD HH:MM:SS">
             </div>
-
+            <div class="form-group">
+                <label for="date_format">Date format</label>
+                <input id="date_format" name="date_format" type="text" placeholder="YYYY-MM-DD">
+            </div>
+            <div class="form-group">
+                <label for="time_format">Time format</label>
+                <input id="time_format" name="time_format" type="text" placeholder="HH:mm:ss">
+            </div>
+            
             <div id="status"></div>
 
             <button style="margin-bottom: 20px;" id="save">Save vault & note configuration</button>
