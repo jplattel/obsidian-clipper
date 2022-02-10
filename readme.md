@@ -33,6 +33,8 @@ This extenion is only tested on Chrome/Firefox on OS X. I've heard people got it
 
 ## Usage & Settings
 
+[Antone Heyward made an awesome video on how to use the clipper!](https://www.youtube.com/watch?v=PZnytCMbR-A) be sure to have a look!
+
 1.  Right-click on the extension icon in the menu, and click on options.
 2.  A webpage should open where you can configure the options for this extension
 3.  You can configure the following:

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.6
+
+-   Fixed [not clipping to folders anymore](https://github.com/jplattel/obsidian-clipper/issues/40)
+-   Added the link to the [youtube video by Antone](https://www.youtube.com/watch?v=PZnytCMbR-A) to the readme
+
 ## 0.3.5
 
 -   Fixed [datetime issue (#32)](https://github.com/jplattel/obsidian-clipper/issues/32).

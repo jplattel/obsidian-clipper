@@ -100,7 +100,7 @@
     noteName = noteName.replace(/{datetime}/g, datetime)
     noteName = noteName.replace(/{time}/g, time)
     
-    noteName = noteName.replace(/\//g, '') // Replace / in the name as it's not allowed
+    // noteName = noteName.replace(/\//g, '') // Replace / in the name as it's not allowed
     noteName = noteName.replace(/:/g, '') // Replace : in the name as it's not allowed
 
     // If we clip as a new note, 
