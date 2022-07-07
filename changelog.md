@@ -1,5 +1,11 @@
 # Changelog
 
+
+## 0.4.0
+
+-   Fixed permissions from the Chrome Web Store
+-   Moving towards manifest.json V3
+
 ## 0.3.6
 
 -   Fixed [not clipping to folders anymore](https://github.com/jplattel/obsidian-clipper/issues/40)

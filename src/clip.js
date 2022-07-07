@@ -87,22 +87,19 @@
         note = note.replace(/{og:image}/g, "")
     }
 
-    // replace the placeholder in the title: 
+    // replace the placeholder in the title, taking into account invalid note names and removing special 
+    // chars like \/:#^\[\]| that result in no note being created...
     noteName = clippingOptions.obsidianNoteName
-    noteName = noteName.replace(/{clip}/g, selection)
-    noteName = noteName.replace(/{date}/g, date)
-    noteName = noteName.replace(/{day}/g, day)
-    noteName = noteName.replace(/{month}/g, month)
-    noteName = noteName.replace(/{year}/g, year)
-    noteName = noteName.replace(/{url}/g, url)
-    noteName = noteName.replace(/{title}/g, title)
-    noteName = noteName.replace(/{zettel}/g, zettel)
-    noteName = noteName.replace(/{datetime}/g, datetime)
-    noteName = noteName.replace(/{time}/g, time)
+    noteName = noteName.replace(/{date}/g, date.replace(/[\/:#^\[\]|]/g, ''))
+    noteName = noteName.replace(/{day}/g, day.replace(/[\/:#^\[\]|]/g, ''))
+    noteName = noteName.replace(/{month}/g, month.replace(/[\/:#^\[\]|]/g, ''))
+    noteName = noteName.replace(/{year}/g, year.replace(/[\/:#^\[\]|]/g, ''))
+    noteName = noteName.replace(/{url}/g, url.replace(/[\/:#^\[\]|]/g, ''))
+    noteName = noteName.replace(/{title}/g, title.replace(/[\/:#^\[\]|]/g, ''))
+    noteName = noteName.replace(/{zettel}/g, zettel.replace(/[\/:#^\[\]|]/g, ''))
+    noteName = noteName.replace(/{datetime}/g, datetime.replace(/[\/:#^\[\]|]/g, ''))
+    noteName = noteName.replace(/{time}/g, time.replace(/[\/:#^\[\]|]/g, ''))
     
-    // noteName = noteName.replace(/\//g, '') // Replace / in the name as it's not allowed
-    noteName = noteName.replace(/:/g, '') // Replace : in the name as it's not allowed
-
     // If we clip as a new note, 
     if (clippingOptions.clipAsNewNote) {
         chrome.runtime.sendMessage([noteName, note])
