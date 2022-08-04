@@ -4,8 +4,9 @@
 
     // Get vault & notes (with default)
     const vault = params.get('vault') || 'obsidian'
-    const note = params.get('note') || 'Chrome Inbox'
+    const note = params.get('note') || 'Chrome Clippings'
+    const content = params.get('content') || "Unable get contents of the clip"
 
     // Redirect to open obsidian
-    window.location.href = `obsidian://vault/${vault}/${note}`
+    window.location.href = `obsidian://new?vault=${vault}&file=${note}&append=true&content=${content}`
 </script>

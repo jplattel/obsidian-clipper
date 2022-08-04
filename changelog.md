@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+
+-   Quite a rewrite, redid the clipping/test functionality so it makes use of the same function
+-   The settings page now opens when a user installs the plugin
+-   Settings are saved before running a test clip (the tab that's used also need to be close manually, to have time for the confirmation dialog about protocol use).
+-   If you decide to clip not to clip to a new note, it'll try and open the note with the same name and appending with the content of the clip. 
 
 ## 0.4.0
 

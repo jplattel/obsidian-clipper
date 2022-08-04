@@ -3,12 +3,10 @@
 // clip.js copies the content and adds it to your clipboard
 // Then this script creates a new tab with a redirect that opens the
 // Obsidian vault with the specified note.
+// Load files necessary for clipping
+
 
 chrome.action.onClicked.addListener(async function (tab) {
-
-    // async function getCurrentTab() {/* ... */}
-    // let tab = await getCurrentTab();
-
     chrome.scripting.executeScript({
         target: {tabId: tab.id},
         files: [
@@ -18,54 +16,47 @@ chrome.action.onClicked.addListener(async function (tab) {
             "lib/moment.js",
             "lib/turndown.js",
         ]
-    })
-
-    // Get the vault and note name configured in the settings, 
-    // defaulting to `obsidian` and `Chrome Clippings` respectively
-    var defaultClippingOptions = {
-        obsidianVaultName: "Obsdian",
-        clipAsNewNote: true,
-    }
-
-    async function getFromStorage(key) {
-        return new Promise((resolve, reject) => {
-            chrome.storage.sync.get(key, resolve);
+    }, () => {
+        chrome.scripting.executeScript({
+            target: {tabId: tab.id},
+            files: ['run.js']
         })
-    }
-
-    
-    chrome.runtime.onMessage.addListener(async function listener(result) {
-        // Remove listener to prevent trigger multiple times
-        chrome.runtime.onMessage.removeListener(listener);
-        
-        // Get vault & and if we clip as a new note:
-        var clippingOptions = await getFromStorage(defaultClippingOptions)
-        const vault = clippingOptions.obsidianVaultName;
-        const clipAsNewNote = clippingOptions.clipAsNewNote;
-
-        var noteName = result[0]
-        var note = encodeURIComponent(result[1])
-
-        let redirectUrl;
-        console.log(noteName, note)
-        // Redirect to page (which opens obsidian).
-        if (clipAsNewNote) {
-            redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip-to-new.html?vault=${encodeURIComponent(vault)}&note=${noteName}&content=${encodeURIComponent(note)}`
-            // console.log(redirectUrl)
-        } else {
-            redirectUrl = `https://jplattel.github.io/obsidian-clipper/clip.html?vault=${encodeURIComponent(vault)}&note=${noteName}`
-        }
-
-        // Create and remove the extra tab:
-        chrome.tabs.create({ url: redirectUrl , active: true},function(obsidianTab){
-            // Close the tab after one second..
-            setTimeout(function() { chrome.tabs.remove(obsidianTab.id) }, 1000);
-        });
-    });
-
-    chrome.scripting.executeScript({
-        target: {tabId: tab.id},
-        files: ['clip.js']
     })
+});
 
+chrome.runtime.onMessage.addListener(async function listener(result) {
+    console.log(result)
+    const clipAsNewNote = result.clipAsNewNote
+    const vault = result.vault
+    const noteName = result.noteName
+    const note = encodeURIComponent(result.note)
+    
+    // const baseURL = 'http://localhost:8080'; // Used for testing...
+    const baseURL = 'https://jplattel.github.io/obsidian-clipper'
+    
+    let redirectUrl;
+    // Redirect to page (which opens obsidian).
+    if (clipAsNewNote) {
+        redirectUrl = `${baseURL}/clip-to-new.html?vault=${encodeURIComponent(vault)}&note=${encodeURIComponent(noteName)}&content=${encodeURIComponent(note)}`
+    } else {
+        redirectUrl = `${baseURL}/clip.html?vault=${encodeURIComponent(vault)}&note=${encodeURIComponent(noteName)}&content=${encodeURIComponent(note)}`
+    }
+    
+    // Open a new tab for clipping through the protocol, since we cannot go from the extension to this..
+    if (result.testing) {
+        chrome.tabs.create({ url: redirectUrl , active: true},function(obsidianTab){
+            // Since we're testing, we are not closing the tag...
+        });
+    } else {
+        chrome.tabs.create({ url: redirectUrl , active: true},function(obsidianTab){
+            setTimeout(function() { chrome.tabs.remove(obsidianTab.id) }, 500);
+        });
+    }
+});
+
+// On install open the options page:
+chrome.runtime.onInstalled.addListener(function (object) {
+    if (object.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+        chrome.tabs.create({ url: chrome.runtime.getURL("options.html") }, function (tab) {});
+    }
 });

@@ -1,6 +1,6 @@
 {
     "name": "Obsidian Clipper",
-    "version": "0.4.1",
+    "version": "0.5.0",
     "manifest_version": 3,
     "description": "A small chrome plugin that let's you easily clip things to Obsidian",
     "homepage_url": "https://github.com/jplattel/obsidian-clipper",
@@ -23,6 +23,12 @@
     ],
     "host_permissions": [
         "https://jplattel.github.io/obsidian-clipper/clip.html"
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": ["/lib/*"],
+            "matches": ["<all_urls>"]
+        }
     ],
     "icons": { 
         "16": "icons/favicon-16x16.png",

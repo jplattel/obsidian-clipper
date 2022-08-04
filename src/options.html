@@ -13,14 +13,15 @@
 
             <h1>Obsidian Clipper</h1>
             <hr>
-            <h2 class="subtitle">An unoffical clipper for Chrome</h2>
+            <h2 class="subtitle">An unoffical clipper</h2>
 
             <p class="description"> 
                 This is an unofficial clipper for <a href="https://obsidian.md/">Obsidian</a> that allows you to easily clip a selection to a note in 
                 Obsidian. Made by <a href="http://jplattel.nl/">Joost Plattel</a>. 
                 This plugin is available as open-source on <a href="https://github.com/jplattel/obsidian-clipper">Github</a>.
-                At this page you can configure the vault & note to append the clip to.
             </p>
+
+            <p class="description">At this page you can configure the vault & note to append the clip to. Please test the configuration</p>
 
             <div class="form-group">
                 <label for="obsidian_vault_name">Vault name <small>(just the name, like 'obsidian' or 'notes')</small></label>
@@ -31,7 +32,7 @@
                 <input data-toggle="toggle" name="clip_as_new_note" type="checkbox" id="clip_as_new_note">
                 <label for="clip_as_new_note">
                     Clip and create a new note
-                    <small class="small">(otherwise the specified note is opened and you can paste the content manually)</small>
+                    <small class="small">(otherwise the specified note is opened content is appended)</small>
                 </label>
             </div>
             
@@ -43,7 +44,7 @@
 
             <div class="form-group">
                 <label for="obsidian_note_format">Clipping format </label>
-                <label id="reset_format">(reset)</label>
+                <label id="reset">(reset)</label>
                 <textarea class="form-control" rows="6" id="obsidian_note_format" name="obsidian_note_format" type="text">> {clip}
 
 Clipped from [{title}]({url}) at {date}.</textarea>

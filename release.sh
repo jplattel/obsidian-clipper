@@ -30,3 +30,5 @@ git commit -m "Releasing ${VERSION}"
 git tag ${VERSION}
 git push origin main
 git push --tags
+
+open https://github.com/jplattel/obsidian-clipper/releases/new

@@ -4,7 +4,7 @@
 
 ![Screencast](docs/demo.gif)
 
-This is an unofficial Chrome Extension to quickly clip a selection on a webpage to Obsidian.
+This is an unofficial Chrome/Firefox Extension to quickly clip a selection on a webpage to Obsidian.
 
 ## Installing (Chrome)
 
@@ -42,12 +42,12 @@ This extenion is only tested on Chrome/Firefox on OS X. I've heard people got it
     -   `note`: The name of the note you want to append to
 4.  You can specify the clipping template using placeholders like `{clip}`, `{date}` and more like `{month}` or `{year}`.
 5.  Decide if you want a markdown clip (HTML is converted to markdown and added to your clipboard) or plain text.
-6.  You cen test if Obsidian opens with the right note with the 'Test Configuration' button. Please know that the chrome-plugin cannot paste the content, you will need to do that yourself!
+6.  You cen test if Obsidian opens with the right note with the 'Test Configuration' button. 
 
 Once configured, you're now good to go, using it only takes two steps:
 
 1.  Make a selection on a page and click the icon of the extension _(or use a shortcut key!)_.
-2.  Obsidian will try to open the specific note within the vault you specified, you can then paste your clipping!
+2.  Obsidian will try to create or append to the specified note within the vault.
 
 ## Troubleshooting
 
