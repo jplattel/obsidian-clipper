@@ -41,7 +41,7 @@ export const create = async (testing=false) => {
     let link = '';
     let fullLink = '';
     
-    // If we're testing..
+    // If we're testing...
     if (testing) {
         selection = "This is a test clipping from the Obsidian Clipper"
     } else if (clippingOptions.selectAsMarkdown) {
@@ -93,18 +93,19 @@ export const create = async (testing=false) => {
         note = note.replace(/{og:image}/g, "")
     }
 
-    // replace the placeholder in the title, taking into account invalid note names and removing special 
-    // chars like \/:#^\[\]|?  that result in no note being created... * " \ / < > : | ?
+    // replace title's placeholders
     let noteName = clippingOptions.obsidianNoteName
-    noteName = noteName.replace(/{date}/g, date.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{day}/g, day.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{month}/g, month.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{year}/g, year.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{url}/g, url.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{title}/g, title.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{zettel}/g, zettel.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{datetime}/g, datetime.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{time}/g, time.replace(/[\/":#^\[\]|?<>]/g, ''))
+    noteName = noteName.replace(/{date}/g, date)
+    noteName = noteName.replace(/{day}/g, day)
+    noteName = noteName.replace(/{month}/g, month)
+    noteName = noteName.replace(/{year}/g, year)
+    noteName = noteName.replace(/{url}/g, url)
+    noteName = noteName.replace(/{title}/g, title)
+    noteName = noteName.replace(/{zettel}/g, zettel)
+    noteName = noteName.replace(/{datetime}/g, datetime)
+    noteName = noteName.replace(/{time}/g, time)
+    // remove invalid title characters: * " \ / < > : | ?
+    noteName = noteName.replace(/[*"\\/<>:|?]/g, '')
     
     // Send a clipping messsage
     let data = {
