@@ -1,9 +1,8 @@
 
 export const createTest = async () => create(true);
+
 export const create = async (testing=false) => {
     console.log("starting clipper...")
-    let title = document.title.replace(/\//g, '')
-    let url = window.location.href
     let defaultNoteFormat = `> {clip}
 
 // Clipped from [{title}]({url}) at {date}.`
@@ -27,86 +26,10 @@ export const create = async (testing=false) => {
 
     let clippingOptions = await getFromStorage(defaultClippingOptions)
 
-    let note = clippingOptions.obsidianNoteFormat
-    
-    let date = moment().format(clippingOptions.dateFormat)
-    let datetime = moment().format(clippingOptions.datetimeFormat)
-    let time = moment().format(clippingOptions.timeFormat)
-    let day = moment().format("DD")
-    let month = moment().format("MM")
-    let year = moment().format("YYYY")
-    let zettel = moment().format("YYYYMMDDHHmmss")
-    
-    let selection = '';
-    let link = '';
-    let fullLink = '';
-    
-    // If we're testing...
-    if (testing) {
-        selection = "This is a test clipping from the Obsidian Clipper"
-    } else if (clippingOptions.selectAsMarkdown) {
-        // Get the HTML selected
-        let sel = rangy.getSelection().toHtml();
+    const formatData = getFormatData(clippingOptions)
+    const note = formatNote(clippingOptions.obsidianNoteFormat, formatData)
+    const noteName = formatName(clippingOptions.obsidianNoteName, formatData)
 
-        // Turndown to markdown
-        let turndown = new TurndownService()
-
-        // This rule constructs url to be absolute URLs for links & images
-        let turndownWithAbsoluteURLs = turndown.addRule('baseUrl', {
-            filter: ['a', 'img'],
-            replacement: function (content, el, options) {
-                if (el.nodeName === 'IMG') {
-                    link =  el.getAttributeNode('src').value;
-                    fullLink = new URL(link, url)
-                    return `![${content}](${fullLink.href})`
-                } else if (el.nodeName === 'A') {
-                    link =  el.getAttributeNode('href').value;
-                    fullLink = new URL(link, url)
-                    return `[${content}](${fullLink.href})`
-                }
-            }
-        })
-
-        selection = turndownWithAbsoluteURLs.turndown(sel)
-        // Otherwise plaintext
-    } else {
-        selection = window.getSelection()
-    }
-
-    // Replace the placeholders: (with regex so multiples are replaced as well..)
-    note = note.replace(/{clip}/g, selection)
-    note = note.replace(/{date}/g, date)
-    note = note.replace(/{datetime}/g, datetime)
-    note = note.replace(/{time}/g, time)
-    note = note.replace(/{day}/g, day)
-    note = note.replace(/{month}/g, month)
-    note = note.replace(/{year}/g, year)
-    note = note.replace(/{url}/g, url)
-    note = note.replace(/{title}/g, title)
-    note = note.replace(/{zettel}/g, zettel)
-
-    // Clip the og:image if it exists
-    if (document.querySelector('meta[property="og:image"]')) {
-        let image = document.querySelector('meta[property="og:image"]').content
-        note = note.replace(/{og:image}/g, `![](${image})`) // image only works in the content of the note
-    } else {
-        note = note.replace(/{og:image}/g, "")
-    }
-
-    // replace title's placeholders
-    let noteName = clippingOptions.obsidianNoteName
-    noteName = noteName.replace(/{date}/g, date)
-    noteName = noteName.replace(/{day}/g, day)
-    noteName = noteName.replace(/{month}/g, month)
-    noteName = noteName.replace(/{year}/g, year)
-    noteName = noteName.replace(/{url}/g, url)
-    noteName = noteName.replace(/{title}/g, title)
-    noteName = noteName.replace(/{zettel}/g, zettel)
-    noteName = noteName.replace(/{datetime}/g, datetime)
-    noteName = noteName.replace(/{time}/g, time)
-    // remove invalid title characters: * " \ / < > : | ?
-    noteName = noteName.replace(/[*"\\/<>:|?]/g, '')
-    
     // Send a clipping messsage
     let data = {
         'testing': testing,
@@ -119,4 +42,103 @@ export const create = async (testing=false) => {
     chrome.runtime.sendMessage(data)
 }
 
+function makeSelectionData(clippingOptions, testing) {
+    let link = '';
+    let fullLink = '';
 
+    // If we're testing...
+    if (testing) {
+        return "This is a test clipping from the Obsidian Clipper"
+    } else if (clippingOptions.selectAsMarkdown) {
+        // Get the HTML selected
+        let sel = rangy.getSelection().toHtml();
+
+        // Turndown to markdown
+        let turndown = new TurndownService()
+
+        // This rule constructs url to be absolute URLs for links & images
+        let turndownWithAbsoluteURLs = turndown.addRule('baseUrl', {
+            filter: ['a', 'img'],
+            replacement: function (content, el, options) {
+                if (el.nodeName === 'IMG') {
+                    link = el.getAttributeNode('src').value;
+                    fullLink = new URL(link, url)
+                    return `![${content}](${fullLink.href})`
+                } else if (el.nodeName === 'A') {
+                    link = el.getAttributeNode('href').value;
+                    fullLink = new URL(link, url)
+                    return `[${content}](${fullLink.href})`
+                }
+            }
+        })
+
+        return turndownWithAbsoluteURLs.turndown(sel)
+        // Otherwise plaintext
+    } else {
+        return window.getSelection()
+    }
+}
+
+function makeImageData() {
+    if (document.querySelector('meta[property="og:image"]')) {
+        let image = document.querySelector('meta[property="og:image"]').content
+        return `![](${image})` // image only works in the content of the note
+    }
+    return ""
+}
+
+function getFormatData(clippingOptions) {
+    const selectionData = makeSelectionData(clippingOptions)
+    const imageData = makeImageData()
+
+    return {
+        title: document.title.replace(/\//g, ''),
+        url: window.location.href,
+        selection: selectionData,
+        date: moment().format(clippingOptions.dateFormat),
+        datetime: moment().format(clippingOptions.datetimeFormat),
+        time: moment().format(clippingOptions.timeFormat),
+        day: moment().format("DD"),
+        month: moment().format("MM"),
+        year: moment().format("YYYY"),
+        zettel: moment().format("YYYYMMDDHHmmss"),
+        image: imageData
+    }
+}
+
+function formatNote(note, formatData) {
+    let ret = note
+    // use regex to catch duplicates
+    ret = ret.replace(/{clip}/g, formatData.selection)
+    ret = ret.replace(/{url}/g, formatData.url)
+    ret = ret.replace(/{title}/g, formatData.title)
+    ret = ret.replace(/{date}/g, formatData.date)
+    ret = ret.replace(/{time}/g, formatData.time)
+    ret = ret.replace(/{datetime}/g, formatData.datetime)
+    ret = ret.replace(/{day}/g, formatData.day)
+    ret = ret.replace(/{month}/g, formatData.month)
+    ret = ret.replace(/{year}/g, formatData.year)
+    ret = ret.replace(/{zettel}/g, formatData.zettel)
+    ret = ret.replace(/{og:image}/g, formatData.image)
+    return ret
+}
+
+function formatName(noteName, formatData) {
+    let ret = noteName
+    // use regex to catch duplicates
+    ret = ret.replace(/{url}/g, formatData.url)
+    ret = ret.replace(/{title}/g, formatData.title)
+    ret = ret.replace(/{date}/g, formatData.date)
+    ret = ret.replace(/{time}/g, formatData.time)
+    ret = ret.replace(/{datetime}/g, formatData.datetime)
+    ret = ret.replace(/{day}/g, formatData.day)
+    ret = ret.replace(/{month}/g, formatData.month)
+    ret = ret.replace(/{year}/g, formatData.year)
+    ret = ret.replace(/{zettel}/g, formatData.zettel)
+
+    // remove invalid characters: * " \ / < > : | ?
+    ret = ret.replace(/[*"\\/<>:|?]/g, " ")
+    // valid, but breaks links to the file: # ^ [ ]
+    ret = ret.replace(/[#^\[\]]/g, "")
+    return ret
+}
