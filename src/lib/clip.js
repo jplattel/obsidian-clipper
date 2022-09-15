@@ -26,7 +26,7 @@ export const create = async (testing=false) => {
 
     let clippingOptions = await getFromStorage(defaultClippingOptions)
 
-    const formatData = getFormatData(clippingOptions)
+    const formatData = makeFormatData(clippingOptions)
     const note = formatNote(clippingOptions.obsidianNoteFormat, formatData)
     const noteName = formatName(clippingOptions.obsidianNoteName, formatData)
 
@@ -87,58 +87,43 @@ function makeImageData() {
     return ""
 }
 
-function getFormatData(clippingOptions) {
-    const selectionData = makeSelectionData(clippingOptions)
-    const imageData = makeImageData()
-
-    return {
-        title: document.title.replace(/\//g, ''),
-        url: window.location.href,
-        selection: selectionData,
-        date: moment().format(clippingOptions.dateFormat),
-        datetime: moment().format(clippingOptions.datetimeFormat),
-        time: moment().format(clippingOptions.timeFormat),
-        day: moment().format("DD"),
-        month: moment().format("MM"),
-        year: moment().format("YYYY"),
-        zettel: moment().format("YYYYMMDDHHmmss"),
-        image: imageData
-    }
+function makeFormatData(clippingOptions) {
+    return [
+        // regex is used in order to catch duplicates
+        {regex: /{title}/g, value: document.title.replace(/\//g, '')},
+        {regex: /{url}/g, value: window.location.href},
+        {regex: /{clip}/g, value: makeSelectionData(clippingOptions)},
+        {regex: /{date}/g, value: moment().format(clippingOptions.dateFormat)},
+        {regex: /{time}/g, value: moment().format(clippingOptions.timeFormat)},
+        {regex: /{datetime}/g, value: moment().format(clippingOptions.datetimeFormat)},
+        {regex: /{day}/g, value: moment().format("DD")},
+        {regex: /{month}/g, value: moment().format("MM")},
+        {regex: /{year}/g, value: moment().format("YYYY")},
+        {regex: /{zettel}/g, value: moment().format("YYYYMMDDHHmmss")},
+        {regex: /{og:image}/g, value: makeImageData()},
+    ]
 }
 
-function formatNote(note, formatData) {
-    let ret = note
-    // use regex to catch duplicates
-    ret = ret.replace(/{clip}/g, formatData.selection)
-    ret = ret.replace(/{url}/g, formatData.url)
-    ret = ret.replace(/{title}/g, formatData.title)
-    ret = ret.replace(/{date}/g, formatData.date)
-    ret = ret.replace(/{time}/g, formatData.time)
-    ret = ret.replace(/{datetime}/g, formatData.datetime)
-    ret = ret.replace(/{day}/g, formatData.day)
-    ret = ret.replace(/{month}/g, formatData.month)
-    ret = ret.replace(/{year}/g, formatData.year)
-    ret = ret.replace(/{zettel}/g, formatData.zettel)
-    ret = ret.replace(/{og:image}/g, formatData.image)
+function applyFormatData(text, formatData) {
+    let ret = text
+
+    for (const dat of formatData) {
+        ret = ret.replace(dat.regex, dat.value)
+    }
+
     return ret
 }
 
+function formatNote(note, formatData) {
+    return applyFormatData(note, formatData)
+}
+
 function formatName(noteName, formatData) {
-    let ret = noteName
-    // use regex to catch duplicates
-    ret = ret.replace(/{url}/g, formatData.url)
-    ret = ret.replace(/{title}/g, formatData.title)
-    ret = ret.replace(/{date}/g, formatData.date)
-    ret = ret.replace(/{time}/g, formatData.time)
-    ret = ret.replace(/{datetime}/g, formatData.datetime)
-    ret = ret.replace(/{day}/g, formatData.day)
-    ret = ret.replace(/{month}/g, formatData.month)
-    ret = ret.replace(/{year}/g, formatData.year)
-    ret = ret.replace(/{zettel}/g, formatData.zettel)
+    let ret = applyFormatData(noteName, formatData)
 
     // remove invalid characters: * " \ / < > : | ?
     ret = ret.replace(/[*"\\/<>:|?]/g, " ")
     // valid, but breaks links to the file: # ^ [ ]
-    ret = ret.replace(/[#^\[\]]/g, "")
+    ret = ret.replace(/[#^\[\]]/g, " ")
     return ret
 }
