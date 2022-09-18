@@ -42,38 +42,35 @@ export const create = async (testing=false) => {
     chrome.runtime.sendMessage(data)
 }
 
-function makeSelectionData(clippingOptions, testing) {
-    let link = '';
-    let fullLink = '';
+function convertToMarkdown(htmlText) {
+    let turndown = new TurndownService()
 
-    // If we're testing...
-    if (testing) {
-        return "This is a test clipping from the Obsidian Clipper"
-    } else if (clippingOptions.selectAsMarkdown) {
-        // Get the HTML selected
-        let sel = rangy.getSelection().toHtml();
+    let url = window.location.href
+    let link, fullLink
 
-        // Turndown to markdown
-        let turndown = new TurndownService()
-
-        // This rule constructs url to be absolute URLs for links & images
-        let turndownWithAbsoluteURLs = turndown.addRule('baseUrl', {
-            filter: ['a', 'img'],
-            replacement: function (content, el, options) {
-                if (el.nodeName === 'IMG') {
-                    link = el.getAttributeNode('src').value;
-                    fullLink = new URL(link, url)
-                    return `![${content}](${fullLink.href})`
-                } else if (el.nodeName === 'A') {
-                    link = el.getAttributeNode('href').value;
-                    fullLink = new URL(link, url)
-                    return `[${content}](${fullLink.href})`
-                }
+    // replace relative URLs with absolute URLs
+    let turndownWithAbsoluteURLs = turndown.addRule('baseUrl', {
+        filter: ['a', 'img'],
+        replacement: function (content, el, options) {
+            if (el.nodeName === 'IMG') {
+                link = el.getAttributeNode('src').value;
+                fullLink = new URL(link, url)
+                return `![${content}](${fullLink.href})`
+            } else if (el.nodeName === 'A') {
+                link = el.getAttributeNode('href').value;
+                fullLink = new URL(link, url)
+                return `[${content}](${fullLink.href})`
             }
-        })
+        }
+    })
 
-        return turndownWithAbsoluteURLs.turndown(sel)
-        // Otherwise plaintext
+    return turndownWithAbsoluteURLs.turndown(htmlText)
+}
+
+function makeSelectionData(clippingOptions) {
+    if (clippingOptions.selectAsMarkdown) {
+        let sel = rangy.getSelection().toHtml()
+        return convertToMarkdown(sel)
     } else {
         return window.getSelection()
     }
