@@ -13,8 +13,8 @@ function saveOptions() {
     chrome.storage.sync.set({
         obsidianVaultName: obsidianVaultName,
         obsidianNoteName: obsidianNoteName,
-        selectAsMarkdown, selectAsMarkdown,
-        obsidianNoteFormat, obsidianNoteFormat,
+        selectAsMarkdown: selectAsMarkdown,
+        obsidianNoteFormat: obsidianNoteFormat,
         clipAsNewNote: clipAsNewNote,
         datetimeFormat: datetimeFormat,
         dateFormat: dateFormat,
@@ -32,7 +32,7 @@ function saveOptions() {
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 function restoreOptions() {
-    chrome.storage.sync.get({
+    chrome.storage.sync.get({ // todo: should this be set?
         obsidianVaultName: 'obsidian',
         obsidianNoteName: 'Chrome Clippings',
         selectAsMarkdown: false,

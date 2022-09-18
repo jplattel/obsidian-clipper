@@ -7,7 +7,7 @@ export const create = async (testing=false) => {
 
 // Clipped from [{title}]({url}) at {date}.`
 
-    let defaultClippingOptions = {
+    let defaultClippingOptions = { // todo: make defaults come from options.js
         obsidianVaultName: 'Obsidian',
         selectAsMarkdown: false,
         obsidianNoteFormat: defaultNoteFormat,
@@ -70,9 +70,9 @@ function convertToMarkdown(htmlText) {
 function makeSelectionData(clippingOptions) {
     if (clippingOptions.selectAsMarkdown) {
         let sel = rangy.getSelection().toHtml()
-        return convertToMarkdown(sel)
+        return convertToMarkdown(sel).trim()
     } else {
-        return window.getSelection()
+        return window.getSelection().toString().trim()
     }
 }
 
@@ -84,15 +84,31 @@ function makeImageData() {
     return ""
 }
 
+function formatBlockQuote(text) {
+    // trim whitespace from line start/end
+    // insert > at start of every line, including the first
+    return "> " + text.replace(/ *\n */g, "\n> ")
+}
+
+function getTimezoneData() {
+    // timezone offset returns negative of what should be displayed
+    const timezoneOffset = -(new Date().getTimezoneOffset() / 60)
+
+    return "UTC" + (timezoneOffset >= 0 ? "+" : "") + timezoneOffset.toString()
+}
+
 function makeFormatData(clippingOptions) {
+    const sel = makeSelectionData(clippingOptions)
     return [
         // regex is used in order to catch duplicates
         {regex: /{title}/g, value: document.title.replace(/\//g, '')},
         {regex: /{url}/g, value: window.location.href},
-        {regex: /{clip}/g, value: makeSelectionData(clippingOptions)},
+        {regex: /{clip}/g, value: sel},
+        {regex: /{blockquote}/g, value: formatBlockQuote(sel)},
         {regex: /{date}/g, value: moment().format(clippingOptions.dateFormat)},
         {regex: /{time}/g, value: moment().format(clippingOptions.timeFormat)},
         {regex: /{datetime}/g, value: moment().format(clippingOptions.datetimeFormat)},
+        {regex: /{timezone}/g, value: getTimezoneData()},
         {regex: /{day}/g, value: moment().format("DD")},
         {regex: /{month}/g, value: moment().format("MM")},
         {regex: /{year}/g, value: moment().format("YYYY")},
