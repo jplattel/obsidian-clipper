@@ -1,14 +1,13 @@
 
 export const createTest = async () => create(true);
+
 export const create = async (testing=false) => {
     console.log("starting clipper...")
-    let title = document.title.replace(/\//g, '')
-    let url = window.location.href
     let defaultNoteFormat = `> {clip}
 
 // Clipped from [{title}]({url}) at {date}.`
 
-    let defaultClippingOptions = {
+    let defaultClippingOptions = { // todo: make defaults come from options.js
         obsidianVaultName: 'Obsidian',
         selectAsMarkdown: false,
         obsidianNoteFormat: defaultNoteFormat,
@@ -27,85 +26,10 @@ export const create = async (testing=false) => {
 
     let clippingOptions = await getFromStorage(defaultClippingOptions)
 
-    let note = clippingOptions.obsidianNoteFormat
-    
-    let date = moment().format(clippingOptions.dateFormat)
-    let datetime = moment().format(clippingOptions.datetimeFormat)
-    let time = moment().format(clippingOptions.timeFormat)
-    let day = moment().format("DD")
-    let month = moment().format("MM")
-    let year = moment().format("YYYY")
-    let zettel = moment().format("YYYYMMDDHHmmss")
-    
-    let selection = '';
-    let link = '';
-    let fullLink = '';
-    
-    // If we're testing..
-    if (testing) {
-        selection = "This is a test clipping from the Obsidian Clipper"
-    } else if (clippingOptions.selectAsMarkdown) {
-        // Get the HTML selected
-        let sel = rangy.getSelection().toHtml();
+    const formatData = makeFormatData(clippingOptions)
+    const note = formatNote(clippingOptions.obsidianNoteFormat, formatData)
+    const noteName = formatName(clippingOptions.obsidianNoteName, formatData)
 
-        // Turndown to markdown
-        let turndown = new TurndownService()
-
-        // This rule constructs url to be absolute URLs for links & images
-        let turndownWithAbsoluteURLs = turndown.addRule('baseUrl', {
-            filter: ['a', 'img'],
-            replacement: function (content, el, options) {
-                if (el.nodeName === 'IMG') {
-                    link =  el.getAttributeNode('src').value;
-                    fullLink = new URL(link, url)
-                    return `![${content}](${fullLink.href})`
-                } else if (el.nodeName === 'A') {
-                    link =  el.getAttributeNode('href').value;
-                    fullLink = new URL(link, url)
-                    return `[${content}](${fullLink.href})`
-                }
-            }
-        })
-
-        selection = turndownWithAbsoluteURLs.turndown(sel)
-        // Otherwise plaintext
-    } else {
-        selection = window.getSelection()
-    }
-
-    // Replace the placeholders: (with regex so multiples are replaced as well..)
-    note = note.replace(/{clip}/g, selection)
-    note = note.replace(/{date}/g, date)
-    note = note.replace(/{datetime}/g, datetime)
-    note = note.replace(/{time}/g, time)
-    note = note.replace(/{day}/g, day)
-    note = note.replace(/{month}/g, month)
-    note = note.replace(/{year}/g, year)
-    note = note.replace(/{url}/g, url)
-    note = note.replace(/{title}/g, title)
-    note = note.replace(/{zettel}/g, zettel)
-
-    // Clip the og:image if it exists
-    if (document.querySelector('meta[property="og:image"]')) {
-        let image = document.querySelector('meta[property="og:image"]').content
-        note = note.replace(/{og:image}/g, `![](${image})`) // image only works in the content of the note
-    } else {
-        note = note.replace(/{og:image}/g, "")
-    }
-
-    // replace the placeholder in the title, taking into account invalid note names and removing special 
-    // chars like \/:#^\[\]|?  that result in no note being created... * " \ / < > : | ?
-    let noteName = clippingOptions.obsidianNoteName
-    noteName = noteName.replace(/{date}/g, date.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{day}/g, day.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{month}/g, month.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{year}/g, year.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{url}/g, url.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{title}/g, title.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{zettel}/g, zettel.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{datetime}/g, datetime.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{time}/g, time.replace(/[\/":#^\[\]|?<>]/g, ''))
-    
     // Send a clipping messsage
     let data = {
         'testing': testing,
@@ -118,4 +42,113 @@ export const create = async (testing=false) => {
     chrome.runtime.sendMessage(data)
 }
 
+function convertToMarkdown(htmlText) {
+    let turndown = new TurndownService()
 
+    let url = window.location.href
+    let link, fullLink
+
+    // replace relative URLs with absolute URLs
+    let turndownWithAbsoluteURLs = turndown.addRule('baseUrl', {
+        filter: ['a', 'img'],
+        replacement: function (content, el, options) {
+            if (el.nodeName === 'IMG') {
+                link = el.getAttributeNode('src').value;
+                fullLink = new URL(link, url)
+                return `![${content}](${fullLink.href})`
+            } else if (el.nodeName === 'A') {
+                link = el.getAttributeNode('href').value;
+                fullLink = new URL(link, url)
+                return `[${content}](${fullLink.href})`
+            }
+        }
+    })
+
+    return turndownWithAbsoluteURLs.turndown(htmlText)
+}
+
+function makeSelectionData(clippingOptions) {
+    if (clippingOptions.selectAsMarkdown) {
+        let sel = rangy.getSelection().toHtml()
+        return convertToMarkdown(sel).trim()
+    } else {
+        return window.getSelection().toString().trim()
+    }
+}
+
+function makeImageData() {
+    if (document.querySelector('meta[property="og:image"]')) {
+        let image = document.querySelector('meta[property="og:image"]').content
+        return `![](${image})` // image only works in the content of the note
+    }
+    return ""
+}
+
+function formatBlockQuote(text) {
+    // trim whitespace from line start/end
+    // insert > at start of every line, including the first
+    return "> " + text.replace(/ *\n */g, "\n> ")
+}
+
+function getTimezoneData() {
+    // timezone offset returns negative of what should be displayed
+    const timezoneOffset = -(new Date().getTimezoneOffset() / 60)
+
+    return "UTC" + (timezoneOffset >= 0 ? "+" : "") + timezoneOffset.toString()
+}
+
+function makeFormatData(clippingOptions) {
+    const sel = makeSelectionData(clippingOptions)
+    return [
+        // regex is used in order to catch duplicates
+        {regex: /{title}/g, value: document.title.replace(/\//g, '')},
+        {regex: /{url}/g, value: window.location.href},
+        {regex: /{clip}/g, value: sel},
+        {regex: /{blockquote}/g, value: formatBlockQuote(sel)},
+        {regex: /{date}/g, value: moment().format(clippingOptions.dateFormat)},
+        {regex: /{time}/g, value: moment().format(clippingOptions.timeFormat)},
+        {regex: /{datetime}/g, value: moment().format(clippingOptions.datetimeFormat)},
+        {regex: /{timezone}/g, value: getTimezoneData()},
+        {regex: /{day}/g, value: moment().format("DD")},
+        {regex: /{month}/g, value: moment().format("MM")},
+        {regex: /{year}/g, value: moment().format("YYYY")},
+        {regex: /{zettel}/g, value: moment().format("YYYYMMDDHHmmss")},
+        {regex: /{og:image}/g, value: makeImageData()},
+    ]
+}
+
+function applyFormatData(text, formatData) {
+    let ret = text
+
+    for (const dat of formatData) {
+        ret = ret.replace(dat.regex, dat.value)
+    }
+
+    return ret
+}
+
+function formatNote(note, formatData) {
+    return applyFormatData(note, formatData)
+}
+
+function formatName(noteName, formatData) {
+    // because folders are accessed via slashes,
+    // they need to be removed from placeholders but
+    // not from the noteName formatting string
+    // todo: backslashes seem to cause a new file to always be created. haven't tested it much.
+    const noParentheses = formatData.map((item) => {
+            return {
+                regex: item.regex,
+                value: item.value.replace(/\\[/]/g, " ")
+            }
+        })
+
+    let ret = applyFormatData(noteName, noParentheses)
+
+    // remove invalid characters: * " \ / < > : | ?
+    // but actually don't remove \ / because they're used for folders
+    ret = ret.replace(/[*"<>:|?]/g, " ")
+    // valid, but breaks links to the file: # ^ [ ]
+    ret = ret.replace(/[#^\[\]]/g, " ")
+    return ret
+}

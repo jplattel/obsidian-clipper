@@ -3,9 +3,10 @@
 // clip.js copies the content and adds it to your clipboard
 // Then this script creates a new tab with a redirect that opens the
 // Obsidian vault with the specified note.
+
+// console.log output accessible at chrome://extensions -> obsidian clipper -> "service worker"
+
 // Load files necessary for clipping
-
-
 chrome.action.onClicked.addListener(async function (tab) {
     chrome.scripting.executeScript({
         target: {tabId: tab.id},
