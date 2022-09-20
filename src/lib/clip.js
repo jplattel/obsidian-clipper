@@ -132,10 +132,22 @@ function formatNote(note, formatData) {
 }
 
 function formatName(noteName, formatData) {
-    let ret = applyFormatData(noteName, formatData)
+    // because folders are accessed via slashes,
+    // they need to be removed from placeholders but
+    // not from the noteName formatting string
+    // todo: backslashes seem to cause a new file to always be created. haven't tested it much.
+    const noParentheses = formatData.map((item) => {
+            return {
+                regex: item.regex,
+                value: item.value.replace(/\\[/]/g, " ")
+            }
+        })
+
+    let ret = applyFormatData(noteName, noParentheses)
 
     // remove invalid characters: * " \ / < > : | ?
-    ret = ret.replace(/[*"\\/<>:|?]/g, " ")
+    // but actually don't remove \ / because they're used for folders
+    ret = ret.replace(/[*"<>:|?]/g, " ")
     // valid, but breaks links to the file: # ^ [ ]
     ret = ret.replace(/[#^\[\]]/g, " ")
     return ret
