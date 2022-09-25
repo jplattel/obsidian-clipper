@@ -100,13 +100,20 @@ h1 {
     clear: both;
 }
 
-button{
+button.save-config{
     margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 5px;
     font-size: 22px;
     padding: 15px;
-    width: 100%;
+    width: 48%;
     border: 0px;
     border-radius: 3px;
+    float: left;
+}
+
+button.reset{
+    font-size: 20px;
 }
 
 button:hover{
@@ -124,9 +131,6 @@ button:hover{
     text-align: left;
 }
 
-#faq dt{
-    
-}
 #faq dd{
     margin-left: 0px;
     margin-top: 10px;
@@ -174,4 +178,67 @@ dt code{
     margin-left:7px;
     font-weight:500;
     font-size:14px;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+button.collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+  }
+  
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+    background-color: #ccc;
+  }
+  
+  /* Style the collapsible content. Note: hidden by default */
+.hideable-content {
+    display: none;
+    overflow: hidden;
+    text-align: left;
+    background-color: #d4b1d8;
+  }
+
+table.placeholder-descriptions {
+    background-color: #ffffff;
+    width: 100%;
+    color: #000000;
+    vertical-align: middle;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+
+  }
+
+code {
+    font-family: Monaco, monospace;
+    font-size: 14px;
+    line-height: 100%;
+    background-color: rgb(247, 207, 235);
+    color: #710606;
+    letter-spacing: -0.05em;
+    word-break: normal;
+    vertical-align: middle;
+  }
+
+ tr.placeholder-descriptions, td.placeholder-descriptions {
+    text-align: left;
+    color: #444;
+    padding: 8px;
+}
+
+th.placeholder-descriptions-header {
+    text-align: left;
+    color: #444;
+    padding: 8px;
+}
+  
+tr:nth-child(even) {
+    background-color: #d1e2e6;
 }

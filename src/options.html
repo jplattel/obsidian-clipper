@@ -39,16 +39,49 @@
             <div class="form-group">
                 <label for="obsidian_note_name">Note to clip to <small>(You can specify the a folder as well, like `notes/{title}-{date}`)</small></label>
                 <input id="obsidian_note_name" name="obsidian_note_name" type="text" placeholder="clips/{zettel}">
-                <small class="form-text grey">Use {date}, {datetime}, {year}, {month}, {day}, {time}, {title} and {zettel} as placeholders </small>
+                <button type="button" class="collapsible">Note Name Options (click to expand)</button>
+            <div class="hideable-content">
+                <table class="placeholder-descriptions">
+                    <tr><th class="placeholder-descriptions-header">Placeholder</th><th  class="placeholder-descriptions-header">Description</th></tr>
+                    <tr><td>&nbsp;<code>{clip}</code></td><td> The text selected on the page when the extension is clicked.</td></tr>
+                    <tr><td>&nbsp;<code>{date}</code></td><td> The date string in format specified below.</td></tr>
+                    <tr><td>&nbsp;<code>{datetime}</code></td><td>The datetime in format specified below.</td></tr>
+                    <tr><td>&nbsp;<code>{year}</code></td><td>The current year, specified as an integer.</td></tr>
+                    <tr><td>&nbsp;<code>{month}</code></td><td> The current month, specified as an integer.</td></tr>
+                    <tr><td>&nbsp;<code>{day}</code></td><td> The current day, specified as an integer.</td></tr>
+                    <tr><td>&nbsp;<code>{time}</code></td><td>The time string in format specified below.</td></tr>
+                    <tr><td>&nbsp;<code>{title}</code></td><td>The title of the webpage, from the "&lt;title&gt;" HTML tag.</td></tr>
+                    <tr><td>&nbsp;<code>{zettel}</code></td><td> The Zettelkasten id for the note.</td></tr>
+                    <tr><td>&nbsp;<code>{url}</code></td><td>The complete URL of the page the clip is taken from.</td></tr>
+                    <tr><td>&nbsp;<code>{domain}</code></td><td>The domain/hostname the clip is taken from.</td></tr>
+                </table>
             </div>
 
             <div class="form-group">
-                <label for="obsidian_note_format">Clipping format </label>
-                <label id="reset">(reset)</label>
+                <label for="obsidian_note_format">Default format <button class="reset" id="reset">reset config</button></label>
                 <textarea class="form-control" rows="6" id="obsidian_note_format" name="obsidian_note_format" type="text">> {clip}
 
 Clipped from [{title}]({url}) at {date}.</textarea>
-                <small class="form-text grey">Use {clip}, {date}, {datetime}, {year}, {month}, {day}, {time}, {title}, {zettel}, {og:image} and {url} as placeholders </small>
+            <button type="button" class="collapsible">Note Template Options (click to expand)</button>
+            <div class="hideable-content">
+                <table class="placeholder-descriptions">
+                    <tr><th class="placeholder-descriptions-header">Placeholder</th><th  class="placeholder-descriptions-header">Description</th></tr>
+                    <tr><td>&nbsp;<code>{clip}</code></td><td> The text selected on the page when the extension is clicked.</td></tr>
+                    <tr><td>&nbsp;<code>{date}</code></td><td> The date string in format specified below.</td></tr>
+                    <tr><td>&nbsp;<code>{datetime}</code></td><td>The datetime in format specified below.</td></tr>
+                    <tr><td>&nbsp;<code>{year}</code></td><td>The current year, specified as an integer.</td></tr>
+                    <tr><td>&nbsp;<code>{month}</code></td><td> The current month, specified as an integer.</td></tr>
+                    <tr><td>&nbsp;<code>{day}</code></td><td> The current day, specified as an integer.</td></tr>
+                    <tr><td>&nbsp;<code>{time}</code></td><td>The time string in format specified below.</td></tr>
+                    <tr><td>&nbsp;<code>{zettel}</code></td><td> The Zettelkasten id for the note.</td></tr>
+                    <tr><td>&nbsp;<code>{og:image}</code></td><td> Add an OpenGraph image to the note.</td></tr>
+                    <tr><td>&nbsp;<code>{og:video:url}</code></td><td> Add an OpenGraph video embed to the note.</td></tr>
+                    <tr><td>&nbsp;<code>{og:description}</code></td><td> Add the OpenGraph description from the website to the note.</td></tr>
+                    <tr><td>&nbsp;<code>{url}</code></td><td>The complete URL of the page the clip is taken from.</td></tr>
+                    <tr><td>&nbsp;<code>{domain}</code></td><td>The domain/hostname the clip is taken from.</td></tr>
+                </table>
+            </div>
+               
             </div>
 
             <div class="form-group">
@@ -72,8 +105,8 @@ Clipped from [{title}]({url}) at {date}.</textarea>
             
             <div id="status"></div>
 
-            <button style="margin-bottom: 20px;" id="save">Save vault & note configuration</button>
-            <button id="test">Test configuration</button>
+            <button class="save-config" id="save">Save vault & note configuration</button>
+            <button class="save-config" id="test">Test configuration</button>
 
         </main>
 
