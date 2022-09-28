@@ -4,6 +4,7 @@ export const create = async (testing=false) => {
     console.log("starting clipper...")
     let title = document.title.replace(/\//g, '')
     let url = window.location.href
+    let domain = location.hostname
     let defaultNoteFormat = `> {clip}
 
 // Clipped from [{title}]({url}) at {date}.`
@@ -82,6 +83,7 @@ export const create = async (testing=false) => {
     note = note.replace(/{month}/g, month)
     note = note.replace(/{year}/g, year)
     note = note.replace(/{url}/g, url)
+    note = note.replace(/{domain}/g, domain)
     note = note.replace(/{title}/g, title)
     note = note.replace(/{zettel}/g, zettel)
 
@@ -93,6 +95,25 @@ export const create = async (testing=false) => {
         note = note.replace(/{og:image}/g, "")
     }
 
+    // Clip the og:video:url if it exists
+    if (document.querySelector('meta[property="og:video:url"]')) {
+        let video = document.querySelector('meta[property="og:video:url"]').content
+         // video only works in the content of the note
+        note = note.replace(/{og:video:url}/g, `<iframe width="560" height="315" src="${video}" 
+        frameborder="0" allow="accelerometer; autoplay;
+        clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`)
+    } else {
+        note = note.replace(/{og:video:url}/g, "")
+    }
+
+    if (document.querySelector('meta[property="og:description"]')) {
+        let desc = document.querySelector('meta[property="og:description"]').content
+         // video only works in the content of the note
+        note = note.replace(/{og:description}/g, desc)
+    } else {
+        note = note.replace(/{og:description}/g, "")
+    }
+
     // replace the placeholder in the title, taking into account invalid note names and removing special 
     // chars like \/:#^\[\]|?  that result in no note being created... * " \ / < > : | ?
     let noteName = clippingOptions.obsidianNoteName
@@ -101,6 +122,7 @@ export const create = async (testing=false) => {
     noteName = noteName.replace(/{month}/g, month.replace(/[\/":#^\[\]|?<>]/g, ''))
     noteName = noteName.replace(/{year}/g, year.replace(/[\/":#^\[\]|?<>]/g, ''))
     noteName = noteName.replace(/{url}/g, url.replace(/[\/":#^\[\]|?<>]/g, ''))
+    noteName = noteName.replace(/{domain}/g, domain.replace(/[\/":#^\[\]|?<>]/g, ''))
     noteName = noteName.replace(/{title}/g, title.replace(/[\/":#^\[\]|?<>]/g, ''))
     noteName = noteName.replace(/{zettel}/g, zettel.replace(/[\/":#^\[\]|?<>]/g, ''))
     noteName = noteName.replace(/{datetime}/g, datetime.replace(/[\/":#^\[\]|?<>]/g, ''))
