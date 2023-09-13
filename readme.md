@@ -53,7 +53,7 @@ Once configured, you're now good to go, using it only takes two steps:
 
 -   I click the clipper icon and nothing is being clipped 
     -   _You need a selection for the clipper to work, it doesn't clip entire pages_
--   A tab opens and closes shortly therafter and Obsidian doens't open
+-   A tab opens and closes shortly therafter and Obsidian doesn't open
     -   Double check you [configuration](chrome-extension://ljdpoilhdidlcanedjhionbakimbdfjk/options.html) and test it with the button at the bottom of the page.
     -    _Manually navigate to `obsidian://` first to see if it's a permission issue_
     -   _Then try opening: `https://jplattel.github.io/obsidian-clipper/clip.html`_
