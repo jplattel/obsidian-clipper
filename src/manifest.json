@@ -19,7 +19,8 @@
         "activeTab",
         "clipboardWrite",
         "storage",
-        "scripting"
+        "scripting",
+        "contextMenus"
     ],
     "host_permissions": [
         "https://jplattel.github.io/obsidian-clipper/clip.html"
