@@ -6,7 +6,7 @@
 // Load files necessary for clipping
 
 
-chrome.action.onClicked.addListener(async function (tab) {
+function executeScript(tab) {
     chrome.scripting.executeScript({
         target: {tabId: tab.id},
         files: [
@@ -22,6 +22,10 @@ chrome.action.onClicked.addListener(async function (tab) {
             files: ['run.js']
         })
     })
+};
+
+chrome.action.onClicked.addListener(async function (tab) {
+    executeScript(tab);
 });
 
 chrome.runtime.onMessage.addListener(async function listener(result) {
@@ -58,5 +62,17 @@ chrome.runtime.onMessage.addListener(async function listener(result) {
 chrome.runtime.onInstalled.addListener(function (object) {
     if (object.reason === chrome.runtime.OnInstalledReason.INSTALL) {
         chrome.tabs.create({ url: chrome.runtime.getURL("options.html") }, function (tab) {});
+    }
+});
+
+chrome.contextMenus.create({
+    contexts: ['all'],
+    title: 'Send to Obsidian',
+    id: 'Obsidian Clipper',
+});
+
+chrome.contextMenus.onClicked.addListener(function(info, tab) {
+    if (info.menuItemId == "Obsidian Clipper") {
+        executeScript(tab);
     }
 });
