@@ -4,8 +4,6 @@
 // Then this script creates a new tab with a redirect that opens the
 // Obsidian vault with the specified note.
 // Load files necessary for clipping
-
-
 chrome.action.onClicked.addListener(async function (tab) {
     chrome.scripting.executeScript({
         target: {tabId: tab.id},
@@ -25,7 +23,6 @@ chrome.action.onClicked.addListener(async function (tab) {
 });
 
 chrome.runtime.onMessage.addListener(async function listener(result) {
-    console.log(result)
     const clipAsNewNote = result.clipAsNewNote
     const vault = result.vault
     const noteName = result.noteName

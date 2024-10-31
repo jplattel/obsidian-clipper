@@ -1,3 +1,5 @@
+> 🚨 This repository is now archived due to the official [Obsidian Web Clipper](https://obsidian.md/clipper) being available.
+
 # Obsidian Chrome Clipper
 
 ## Screencast

@@ -94,17 +94,17 @@ export const create = async (testing=false) => {
     }
 
     // replace the placeholder in the title, taking into account invalid note names and removing special 
-    // chars like \/:#^\[\]|?  that result in no note being created... * " \ / < > : | ?
+    // chars like \/:#^\[\]|?  that result in no note being created...
     let noteName = clippingOptions.obsidianNoteName
-    noteName = noteName.replace(/{date}/g, date.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{day}/g, day.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{month}/g, month.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{year}/g, year.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{url}/g, url.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{title}/g, title.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{zettel}/g, zettel.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{datetime}/g, datetime.replace(/[\/":#^\[\]|?<>]/g, ''))
-    noteName = noteName.replace(/{time}/g, time.replace(/[\/":#^\[\]|?<>]/g, ''))
+    noteName = noteName.replace(/{date}/g, date.replace(/[*'\/":#^\[\]|?<>]/g, ''))
+    noteName = noteName.replace(/{day}/g, day.replace(/[*'\/":#^\[\]|?<>]/g, ''))
+    noteName = noteName.replace(/{month}/g, month.replace(/[*'\/":#^\[\]|?<>]/g, ''))
+    noteName = noteName.replace(/{year}/g, year.replace(/[*'\/":#^\[\]|?<>]/g, ''))
+    noteName = noteName.replace(/{url}/g, url.replace(/[*'\/":#^\[\]|?<>]/g, ''))
+    noteName = noteName.replace(/{title}/g, title.replace(/[*'\/":#^\[\]|?<>]/g, ''))
+    noteName = noteName.replace(/{zettel}/g, zettel.replace(/[*'\/":#^\[\]|?<>]/g, ''))
+    noteName = noteName.replace(/{datetime}/g, datetime.replace(/[*'\/":#^\[\]|?<>]/g, ''))
+    noteName = noteName.replace(/{time}/g, time.replace(/[*'\/":#^\[\]|?<>]/g, ''))
     
     // Send a clipping messsage
     let data = {
