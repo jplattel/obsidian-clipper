@@ -17,6 +17,7 @@ export const create = async (testing=false) => {
         dateFormat: "YYYY-MM-DD",
         datetimeFormat: "YYYY-MM-DD HH:mm:ss",
         timeFormat: "HH:mm:ss",
+        zettelFormat: "YYYYMMDDmmss",
     }
 
     async function getFromStorage(key) {
@@ -35,7 +36,7 @@ export const create = async (testing=false) => {
     let day = moment().format("DD")
     let month = moment().format("MM")
     let year = moment().format("YYYY")
-    let zettel = moment().format("YYYYMMDDHHmmss")
+    let zettel = moment().format(clippingOptions.zettelFormat)
     
     let selection = '';
     let link = '';

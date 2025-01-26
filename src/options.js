@@ -9,6 +9,7 @@ function saveOptions() {
     var datetimeFormat = document.getElementById('datetime_format').value;
     var dateFormat = document.getElementById('date_format').value;
     var timeFormat = document.getElementById('time_format').value;
+    var zettelFormat = document.getElementById('zettel_format').value;
 
     chrome.storage.sync.set({
         obsidianVaultName: obsidianVaultName,
@@ -19,6 +20,8 @@ function saveOptions() {
         datetimeFormat: datetimeFormat,
         dateFormat: dateFormat,
         timeFormat: timeFormat,
+        zettelFormat: zettelFormat,
+        
     }, function() {
         // Update status to let user know options were saved.
         var status = document.getElementById('status');
@@ -43,6 +46,7 @@ Clipped from [{title}]({url}) at {date}.`,
         datetimeFormat: "YYYY-MM-DD HH:mm:ss",
         dateFormat: "YYYY-MM-DD",
         timeFormat: "HH:mm:ss",
+        zettelFormat: "YYYYMMDDHHmmss",
     }, function(options) {
         document.getElementById('obsidian_vault_name').value = options.obsidianVaultName;
         document.getElementById('obsidian_note_name').value = options.obsidianNoteName;
@@ -52,6 +56,7 @@ Clipped from [{title}]({url}) at {date}.`,
         document.getElementById('datetime_format').value = options.datetimeFormat;
         document.getElementById('date_format').value = options.dateFormat;
         document.getElementById('time_format').value = options.timeFormat;
+        document.getElementById('zettel_format').value = options.zettelFormat;
     });
 }
 
